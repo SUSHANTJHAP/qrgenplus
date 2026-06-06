@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block crawling of non-content assets
+Disallow: /assets/
+
+# Sitemap location
+Sitemap: https://qrgenplus.com/sitemap.xml

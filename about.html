@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+  <meta name="theme-color" content="#0F172A" />
+  <title>About QRGenPlus — Free, Private, Community-Driven QR Code Generator</title>
+  <meta name="description" content="Learn about QRGenPlus — a free, open, serverless QR code generator built for privacy. No accounts, no data collection, and no backend servers. Your data stays in your browser." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://qrgenplus.com/about.html" />
+  <meta property="og:title" content="About QRGenPlus — Free QR Code Generator" />
+  <meta property="og:description" content="QRGenPlus is a community-driven, free QR code generation tool that runs entirely in your browser." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://qrgenplus.com/about.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/custom.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About QRGenPlus",
+    "url": "https://qrgenplus.com/about.html",
+    "description": "QRGenPlus is a free, browser-based QR code generator that processes all data locally with zero backend infrastructure.",
+    "isPartOf": { "@type": "WebSite", "name": "QRGenPlus", "url": "https://qrgenplus.com/" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://qrgenplus.com/" },
+        { "@type": "ListItem", "position": 2, "name": "About", "item": "https://qrgenplus.com/about.html" }
+      ]
+    }
+  }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <nav class="qr-nav" role="navigation" aria-label="Main navigation">
+    <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <a href="/" class="qr-logo" aria-label="QRGenPlus Home"><img src="assets/favicon.png" alt="QRGenPlus icon" width="28" height="28" style="border-radius:7px; vertical-align:middle; margin-right:6px;" />QRGenPlus</a>
+      <div class="flex items-center gap-1">
+        <a href="guides/" class="qr-nav-link">📚 Guides</a>
+        <a href="about.html" class="qr-nav-link" aria-current="page">About</a>
+        <a href="contact.html" class="qr-nav-link">Contact</a>
+        <a href="privacy-policy.html" class="qr-nav-link">Privacy</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-hero" role="banner">
+    <nav aria-label="Breadcrumb" class="text-xs text-slate-500 mb-4">
+      <ol class="flex justify-center gap-2 flex-wrap" role="list">
+        <li><a href="/" class="hover:text-indigo-400 transition-colors">Home</a></li>
+        <li aria-hidden="true">/</li>
+        <li><span aria-current="page" class="text-slate-400">About</span></li>
+      </ol>
+    </nav>
+    <h1 class="text-white">About QRGenPlus</h1>
+    <p class="text-slate-400 text-sm mt-2 max-w-md mx-auto">A free, private, community-driven QR code tool built on a simple belief: utility software should respect your privacy.</p>
+  </header>
+
+  <main class="flex-1" role="main">
+    <article class="prose-content">
+
+      <h2>Our Mission</h2>
+      <p>QRGenPlus was built on a simple but powerful idea: <strong>free tools should be genuinely free — no data harvesting, no dark patterns, no forced accounts</strong>. In an era where even the most basic online utilities have become data extraction pipelines, QRGenPlus represents a different approach.</p>
+      <p>We built QRGenPlus to be a utility-first platform. When you need a QR code, you should be able to get one in seconds — for any content type — without being asked to sign up, verify your email, or consent to having your data monetised. The tool exists to serve <em>you</em>, not the other way around.</p>
+
+      <h2>What Makes QRGenPlus Different</h2>
+      <p>Most "free" QR code generators online are not truly free. They use your generated codes as an opportunity to collect marketing data, enforce scan limits, or upsell paid plans. Some even <em>own the data encoded in your QR codes</em> because the actual link is their server's redirect URL — not your content directly.</p>
+      <p>QRGenPlus is architecturally different:</p>
+      <ul>
+        <li><strong>Zero-backend architecture:</strong> There are no QRGenPlus servers involved in generating your code. The entire encoding process runs in your browser's JavaScript engine using the open-source <code>qrcode-styling</code> library.</li>
+        <li><strong>Static QR codes:</strong> Your data is encoded directly into the QR matrix. There is no redirect, no shortlink, and no dependency on any QRGenPlus infrastructure for the code to function.</li>
+        <li><strong>No account required:</strong> Ever. There is no login, no email verification, and no subscription tier.</li>
+        <li><strong>No scan limits:</strong> QR codes you generate are yours. Use them as many times as you like.</li>
+        <li><strong>No data collection:</strong> Refer to our <a href="privacy-policy.html">Privacy Policy</a> for the full technical breakdown.</li>
+      </ul>
+
+      <h2>Who Uses QRGenPlus</h2>
+      <p>QRGenPlus is designed to serve a wide range of users across industries and skill levels:</p>
+      <ul>
+        <li><strong>Small business owners</strong> who need QR codes for menus, signage, and product packaging without paying for a subscription.</li>
+        <li><strong>Event organisers</strong> who need one-time QR codes for tickets, event schedules, or venue WiFi access.</li>
+        <li><strong>Educators and students</strong> using QR codes to link to resources, worksheets, or multimedia content in classrooms.</li>
+        <li><strong>IT administrators and home users</strong> generating WiFi QR codes for guest networks without exposing passwords.</li>
+        <li><strong>Developers and designers</strong> who want a fast, reliable QR tool without vendor lock-in or API dependencies.</li>
+        <li><strong>Privacy-conscious individuals</strong> who want assurance that their typed content is never transmitted anywhere.</li>
+      </ul>
+
+      <h2>Our Technology</h2>
+      <p>QRGenPlus is built with modern, lightweight, open-source web technologies:</p>
+      <ul>
+        <li><strong>HTML5 &amp; Semantic Markup:</strong> Structured for accessibility and search engine clarity.</li>
+        <li><strong>Tailwind CSS:</strong> A utility-first CSS framework for a responsive, professional design system.</li>
+        <li><strong>Vanilla JavaScript (ES2015+):</strong> No heavyweight frameworks. Clean, readable, and fast.</li>
+        <li><strong>qrcode-styling (MIT License):</strong> The open-source QR encoding library that runs entirely in the browser canvas API. <a href="https://github.com/kozakdenys/qr-code-styling" target="_blank" rel="noopener noreferrer">View on GitHub →</a></li>
+        <li><strong>Cloudflare Pages:</strong> Hosted on Cloudflare's edge network for global low-latency delivery of static assets.</li>
+      </ul>
+
+      <h2>Our Commitment to the Open Web</h2>
+      <p>QRGenPlus is part of a broader movement toward an open, decentralised, privacy-respecting web. We believe that the best software is software that disappears — it gets out of your way, does its job, and asks nothing in return. Every decision we make in the design and development of QRGenPlus is filtered through this lens.</p>
+      <p>We publish educational guides about QR codes — covering everything from security risks to industry applications — because we believe informed users make better decisions. A tool is only as good as the understanding behind it.</p>
+
+      <h2>Contact &amp; Feedback</h2>
+      <p>We genuinely value user feedback. If you encounter a bug, have a feature request, or want to share how you're using QRGenPlus, we'd love to hear from you. Reach us at <a href="mailto:support@qrgenplus.com">support@qrgenplus.com</a> or visit our <a href="contact.html">Contact page</a>.</p>
+
+    </article>
+
+    <!-- Stats / Trust Signals -->
+    <section class="max-w-3xl mx-auto px-4 pb-12" aria-labelledby="stats-heading">
+      <h2 id="stats-heading" class="visually-hidden">Platform statistics</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
+        <div class="qr-card p-5 text-center">
+          <div class="text-3xl font-black text-gradient mb-1">4</div>
+          <div class="text-sm text-slate-400 font-medium">QR Code Types</div>
+        </div>
+        <div class="qr-card p-5 text-center">
+          <div class="text-3xl font-black text-gradient mb-1">0</div>
+          <div class="text-sm text-slate-400 font-medium">Data Points Collected</div>
+        </div>
+        <div class="qr-card p-5 text-center">
+          <div class="text-3xl font-black text-gradient mb-1">∞</div>
+          <div class="text-sm text-slate-400 font-medium">QR Codes Generated</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="qr-footer py-8 px-4" role="contentinfo">
+    <div class="max-w-6xl mx-auto text-center">
+      <nav aria-label="Footer navigation" class="flex flex-wrap justify-center gap-x-5 gap-y-2 mb-4">
+        <a href="/">Home</a>
+        <a href="guides/">Guides</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms-of-service.html">Terms of Service</a>
+      </nav>
+      <p class="text-xs text-slate-600">© 2025 QRGenPlus. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

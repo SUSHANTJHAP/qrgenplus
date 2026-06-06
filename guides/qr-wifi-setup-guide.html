@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WiFi QR Code Setup Guide — Share Your Password Safely — QRGenPlus</title>
+  <meta name="description" content="Create a WiFi QR code so guests can connect to your network instantly without typing a password. Step-by-step guide for homes, offices, cafes, and hotels." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://qrgenplus.com/guides/qr-wifi-setup-guide.html" />
+  <meta property="og:title" content="WiFi QR Code Setup Guide — Share Your Password Safely" />
+  <meta property="og:description" content="Create a WiFi QR code so guests can connect to your network instantly without typing a password. Step-by-step guide for homes, offices, cafes, and hotels." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://qrgenplus.com/guides/qr-wifi-setup-guide.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="WiFi QR Code Setup Guide — Share Your Password Safely" />
+  <meta name="twitter:description" content="Create a WiFi QR code so guests can connect to your network instantly without typing a password. Step-by-step guide for homes, offices, cafes, and hotels." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/custom.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "WiFi QR Code Setup Guide: Let Guests Connect Without Typing Passwords",
+    "description": "Create a WiFi QR code so guests can connect to your network instantly without typing a password. Step-by-step guide for homes, offices, cafes, and hotels.",
+    "url": "https://qrgenplus.com/guides/qr-wifi-setup-guide.html",
+    "datePublished": "2025-06-07",
+    "dateModified": "2025-06-07",
+    "author": { "@type": "Organization", "name": "QRGenPlus", "url": "https://qrgenplus.com/" },
+    "publisher": { "@type": "Organization", "name": "QRGenPlus", "url": "https://qrgenplus.com/" },
+    "isPartOf": { "@type": "WebSite", "name": "QRGenPlus", "url": "https://qrgenplus.com/" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://qrgenplus.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://qrgenplus.com/guides/" },
+        { "@type": "ListItem", "position": 3, "name": "WiFi QR Code Setup Guide", "item": "https://qrgenplus.com/guides/qr-wifi-setup-guide.html" }
+      ]
+    }
+  }
+  </script>
+</head>
+<body class="flex flex-col min-h-screen bg-white text-gray-800">
+
+  <!-- Navigation -->
+  <nav class="qr-nav">
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">
+        <span class="logo-icon">⬛</span>
+        <span class="logo-text">QRGenPlus</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../guides/">Guides</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Hero / Header -->
+  <header class="page-hero">
+    <div class="hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol class="breadcrumb-list">
+          <li><a href="../">Home</a></li>
+          <li aria-hidden="true">›</li>
+          <li><a href="../guides/">Guides</a></li>
+          <li aria-hidden="true">›</li>
+          <li aria-current="page">WiFi QR Code Setup Guide</li>
+        </ol>
+      </nav>
+      <h1 class="hero-title">WiFi QR Code Setup Guide: Let Guests Connect Without Typing Passwords</h1>
+      <p class="hero-meta"><span>5 min read</span> &middot; <span>Practical Setup</span></p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1" role="main">
+    <article class="prose-content">
+
+      <!-- Section 1 -->
+      <h2>What Is a WiFi QR Code?</h2>
+      <p>
+        A WiFi QR code is a scannable square barcode that encodes your wireless network credentials — the network name (SSID), password, and security protocol — into a single image. When a smartphone camera reads the code, the device automatically prompts the user to join that network without them ever seeing or typing a password. It removes the most frustrating part of the guest experience: hunting down a sticky note, squinting at a 16-character password, and re-typing it three times.
+      </p>
+      <p>
+        WiFi QR codes are widely used in homes, offices, coffee shops, hotel rooms, co-working spaces, and event venues. They are free to generate, require no app to scan, and take less than a minute to create.
+      </p>
+
+      <!-- Section 2 -->
+      <h2>How Does a WiFi QR Code Work Technically?</h2>
+      <p>
+        The magic is in a special text string called the <strong>WIFI: protocol</strong>, standardised by the ZXing (Zebra Crossing) project and widely adopted by QR scanner libraries. When a QR code contains this string, iOS and Android recognise it as a network join request rather than a plain URL or text.
+      </p>
+      <p>The format is:</p>
+      <pre><code>WIFI:T:WPA;S:MyNetwork;P:MySecret123;H:false;;</code></pre>
+      <p>Each field is a key-value pair separated by semicolons:</p>
+      <ul>
+        <li><strong>T:</strong> — Security type. Valid values are <code>WPA</code> (covers both WPA2 and WPA3), <code>WEP</code>, or <code>nopass</code> for open networks.</li>
+        <li><strong>S:</strong> — The SSID (network name). If the name contains a semicolon, colon, backslash, or double-quote, those characters must be escaped with a backslash.</li>
+        <li><strong>P:</strong> — The password. Omit this field entirely for open networks. Same escaping rules apply.</li>
+        <li><strong>H:</strong> — Whether the network is hidden (<code>true</code> or <code>false</code>). If true, the device will probe for the SSID rather than waiting for a broadcast beacon.</li>
+      </ul>
+      <p>
+        The string always ends with two consecutive semicolons <code>;;</code> to signal the parser that the record is complete. A generator like QRGenPlus handles all escaping and formatting automatically — you just fill in the fields.
+      </p>
+
+      <!-- Section 3 -->
+      <h2>Which Devices Support WiFi QR Codes Natively?</h2>
+      <p>Native support is now very broad across modern devices:</p>
+      <ul>
+        <li><strong>iPhone / iPad</strong> — iOS 11 and later. Point the built-in Camera app at the code; a banner appears offering to join the network.</li>
+        <li><strong>Android</strong> — Android 10 and later on most stock launchers. The Camera or Google Lens app detects the WIFI: string and shows a tap-to-connect prompt.</li>
+        <li><strong>Samsung Galaxy</strong> — Bixby Vision and the native camera support WiFi QR on Android 9+ with Samsung One UI.</li>
+        <li><strong>Older devices</strong> — Require a dedicated QR scanner app (e.g., Google Lens, QR &amp; Barcode Scanner) that understands the WIFI: protocol.</li>
+      </ul>
+      <p>Chromebooks, Windows 11 laptops, and macOS devices can also scan a WiFi QR code using the system camera, though with slightly different UI flows.</p>
+
+      <!-- Section 4 -->
+      <h2>Step-by-Step: Generating Your WiFi QR Code on QRGenPlus</h2>
+      <ol class="step-list">
+        <li>Open <a href="../index.html">QRGenPlus</a> and select the <strong>WiFi</strong> QR type from the toolbar.</li>
+        <li>Enter your <strong>Network Name (SSID)</strong> exactly as it appears in your router settings — it is case-sensitive.</li>
+        <li>Choose your <strong>security type</strong>: WPA2/WPA3 for modern routers, WEP for older hardware, or None for open hotspots.</li>
+        <li>Type your <strong>WiFi password</strong> into the password field. The generator previews the encoded WIFI: string so you can verify it before encoding.</li>
+        <li>Toggle <strong>Hidden Network</strong> if your router does not broadcast its SSID publicly.</li>
+        <li>Click <strong>Generate</strong>. A high-resolution QR code appears instantly.</li>
+        <li>Download as PNG or SVG. Print it, laminate it, and display it wherever guests need to connect.</li>
+      </ol>
+
+      <!-- Section 5 -->
+      <h2>Choosing the Right Security Type (WPA2 vs WEP vs Open)</h2>
+      <p>
+        Your router's security protocol determines the <code>T:</code> field in the WIFI: string and — more importantly — how well your network is protected:
+      </p>
+      <ul>
+        <li><strong>WPA2 / WPA3 (recommended)</strong> — The modern standard for home and business networks. Use <code>WPA</code> as the type value; it works for both WPA2 and WPA3 routers. Data in transit is encrypted using AES, making password interception extremely difficult.</li>
+        <li><strong>WEP (legacy, avoid if possible)</strong> — An older standard from the late 1990s that is cryptographically broken. A skilled attacker can crack a WEP password in minutes. Only use this setting if you own very old hardware that cannot be updated.</li>
+        <li><strong>Open / No password</strong> — Traffic is unencrypted. Suitable only for isolated guest VLANs where you deliberately want zero-friction access and have separated the guest traffic from your main network.</li>
+      </ul>
+
+      <!-- Section 6 -->
+      <h2>Where to Display Your WiFi QR Code</h2>
+      <p>Placement determines how much value the code actually delivers. Consider these proven locations:</p>
+      <ul>
+        <li>A laminated card on reception desks, café counters, or hotel room nightstands.</li>
+        <li>A framed print near the front door for Airbnb or short-term rental properties.</li>
+        <li>A tent card at every table in a restaurant or co-working space.</li>
+        <li>A sticker on the back of the router itself — so you can re-scan it when you change devices.</li>
+        <li>Embedded in your welcome email or digital check-in instructions as an inline image.</li>
+      </ul>
+
+      <!-- Section 7 -->
+      <h2>Is It Safe to Share Your WiFi Password via QR?</h2>
+      <p>
+        The QR code stores your password as plain text inside the WIFI: string — it is not encrypted within the code itself. Anyone who scans it will be able to read the password using any QR reader. That said, the practical risk is low compared to writing the password on a whiteboard: the QR image conveys no additional information to a network attacker who does not already have physical access to the premises.
+      </p>
+      <p>
+        For higher-security environments, consider running a dedicated guest VLAN with its own SSID and a simple rotating password. Regenerating the QR code takes seconds. You can also set a time-limited password on some enterprise routers and regenerate the code periodically to limit exposure. For most homes and small businesses, a strong WPA2 passphrase paired with a WiFi QR code strikes the right balance between convenience and security.
+      </p>
+
+      <!-- Section 8 -->
+      <h2>Conclusion</h2>
+      <p>
+        A WiFi QR code turns the chore of sharing network credentials into a one-second tap. The WIFI: protocol is simple to generate, universally supported on modern smartphones, and requires no app to scan. Whether you run a busy café, manage a rental property, or just want a smoother experience for visiting family, setting up a WiFi QR code is one of the highest-value, lowest-effort improvements you can make.
+      </p>
+      <p>
+        Ready to create yours? <a href="../index.html" class="cta-link">Generate your free WiFi QR code on QRGenPlus →</a>
+      </p>
+
+    </article>
+
+    <!-- Related Articles -->
+    <section class="related-articles" aria-labelledby="related-heading">
+      <div class="related-inner">
+        <h2 id="related-heading" class="related-title">Related Articles</h2>
+        <div class="guide-cards">
+
+          <article class="guide-card">
+            <h3 class="card-title"><a href="./how-to-scan-qr-safely.html">How to Scan QR Codes Safely</a></h3>
+            <p class="card-excerpt">Learn how to verify a QR code before you tap, spot malicious redirects, and protect your device from QR-based phishing attacks.</p>
+            <a href="./how-to-scan-qr-safely.html" class="card-link" aria-label="Read how to scan QR codes safely">Read article →</a>
+          </article>
+
+          <article class="guide-card">
+            <h3 class="card-title"><a href="./qr-code-security-risks.html">QR Code Security Risks Explained</a></h3>
+            <p class="card-excerpt">Understand the real threats behind QR codes — from quishing attacks to data harvesting — and the simple steps that neutralise them.</p>
+            <a href="./qr-code-security-risks.html" class="card-link" aria-label="Read QR code security risks explained">Read article →</a>
+          </article>
+
+          <article class="guide-card">
+            <h3 class="card-title"><a href="./what-is-a-qr-code.html">What Is a QR Code? A Complete Beginner's Guide</a></h3>
+            <p class="card-excerpt">Discover how QR codes store data, how the error correction system works, and why the technology has become essential in everyday life.</p>
+            <a href="./what-is-a-qr-code.html" class="card-link" aria-label="Read what is a QR code beginner's guide">Read article →</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="qr-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="../" class="nav-logo">
+          <span class="logo-icon">⬛</span>
+          <span class="logo-text">QRGenPlus</span>
+        </a>
+        <p class="footer-tagline">Free, fast QR codes — no sign-up required.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <ul>
+          <li><a href="../guides/">Guides</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../privacy.html">Privacy Policy</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+          <li><a href="../sitemap.xml">Sitemap</a></li>
+        </ul>
+      </nav>
+      <p class="footer-copy">&copy; 2025 QRGenPlus. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
