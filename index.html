@@ -29,6 +29,10 @@
   <meta property="og:title" content="Free QR Code Generator — QRGenPlus" />
   <meta property="og:description" content="The best free QR code generator online. Create QR codes for URLs, text, WiFi &amp; files. No signup, no limits. Better than Adobe or Canva — and completely free." />
   <meta property="og:url" content="https://qrgenplus.com/" />
+  <meta property="og:image" content="https://qrgenplus.com/assets/img/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="QRGenPlus — Free QR Code Generator" />
   <meta property="og:locale" content="en_US" />
 
   <!-- ============================================================
@@ -38,6 +42,8 @@
   <meta name="twitter:site" content="@qrgenplus" />
   <meta name="twitter:title" content="Free QR Code Generator — QRGenPlus" />
   <meta name="twitter:description" content="Free QR code generator for links, text, WiFi & files. No signup. No limits. A great free alternative to Adobe and Canva QR code generators." />
+  <meta name="twitter:image" content="https://qrgenplus.com/assets/img/og-image.png" />
+  <meta name="twitter:image:alt" content="QRGenPlus — Free QR Code Generator" />
 
   <!-- ============================================================
        RESOURCE HINTS — Core Web Vitals (LCP / FID optimisation)
@@ -221,13 +227,20 @@
   }
   </script>
 
-  <!-- QRCode-Styling Library (client-side, no data leaves browser) -->
-  <script src="https://unpkg.com/qr-code-styling@1.6.0-rc.1/lib/qr-code-styling.js" defer></script>
+  <!-- QRCode-Styling Library — stable v1.5.0 (client-side, no data leaves browser) -->
+  <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js" defer></script>
   <!-- App Logic -->
   <script src="assets/js/app.js" defer></script>
 </head>
 
 <body class="min-h-screen flex flex-col">
+
+  <!-- No-JS fallback -->
+  <noscript>
+    <div style="background:#1e293b;color:#f8fafc;text-align:center;padding:1rem;font-family:sans-serif;font-size:0.9rem;">
+      ⚠️ QRGenPlus requires JavaScript to generate QR codes. Please enable JavaScript in your browser settings.
+    </div>
+  </noscript>
 
   <!-- ======================================================
        SKIP TO CONTENT (Accessibility + SEO)
@@ -620,7 +633,7 @@
       <div class="space-y-3" role="list">
 
         <details class="qr-card p-5 group" role="listitem">
-          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none" aria-expanded="false">
+          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none">
             Is QRGenPlus completely free to use?
             <span class="text-indigo-400 text-lg transition-transform group-open:rotate-45" aria-hidden="true">+</span>
           </summary>
@@ -628,7 +641,7 @@
         </details>
 
         <details class="qr-card p-5 group" role="listitem">
-          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none" aria-expanded="false">
+          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none">
             Does QRGenPlus store or collect my data?
             <span class="text-indigo-400 text-lg transition-transform group-open:rotate-45" aria-hidden="true">+</span>
           </summary>
@@ -636,7 +649,7 @@
         </details>
 
         <details class="qr-card p-5 group" role="listitem">
-          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none" aria-expanded="false">
+          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none">
             What types of QR codes can I generate?
             <span class="text-indigo-400 text-lg transition-transform group-open:rotate-45" aria-hidden="true">+</span>
           </summary>
@@ -644,7 +657,7 @@
         </details>
 
         <details class="qr-card p-5 group" role="listitem">
-          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none" aria-expanded="false">
+          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none">
             Can I use the generated QR codes commercially?
             <span class="text-indigo-400 text-lg transition-transform group-open:rotate-45" aria-hidden="true">+</span>
           </summary>
@@ -652,7 +665,7 @@
         </details>
 
         <details class="qr-card p-5 group" role="listitem">
-          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none" aria-expanded="false">
+          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none">
             How does the WiFi QR code work?
             <span class="text-indigo-400 text-lg transition-transform group-open:rotate-45" aria-hidden="true">+</span>
           </summary>
@@ -660,7 +673,7 @@
         </details>
 
         <details class="qr-card p-5 group" role="listitem">
-          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none" aria-expanded="false">
+          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none">
             Do the generated QR codes expire?
             <span class="text-indigo-400 text-lg transition-transform group-open:rotate-45" aria-hidden="true">+</span>
           </summary>
@@ -668,7 +681,7 @@
         </details>
 
         <details class="qr-card p-5 group" role="listitem">
-          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none" aria-expanded="false">
+          <summary class="font-semibold text-white text-sm cursor-pointer flex justify-between items-center list-none">
             What format does the downloaded QR code use?
             <span class="text-indigo-400 text-lg transition-transform group-open:rotate-45" aria-hidden="true">+</span>
           </summary>
@@ -767,7 +780,7 @@
       </div>
       <hr class="divider mt-6" role="separator" />
       <p class="text-center text-xs text-slate-600 mt-4">
-        © 2025 QRGenPlus. All rights reserved. Built for the open web. No tracking. No accounts. No backend.
+        © <span class="copyright-year">2026</span> QRGenPlus. All rights reserved. Built for the open web. No tracking. No accounts. No backend.
       </p>
     </div>
   </footer>

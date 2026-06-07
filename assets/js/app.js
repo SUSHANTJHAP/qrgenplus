@@ -72,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
   bindDownload();
   bindCopy();
   updateDownloadBtn(false);
+  initMobileNav();
+  initDynamicCopyright();
 });
 
 function resolveDOM() {
@@ -253,7 +255,7 @@ function buildWifiString(ssid, password, secType) {
   const escapedPass = password ? esc(password) : '';
   const type        = secType === 'nopass' ? 'nopass' : secType.toUpperCase();
 
-  if (type === 'NOPASS' || type === 'nopass') {
+  if (type === 'NOPASS') {
     return `WIFI:T:nopass;S:${escapedSsid};;`;
   }
 
@@ -304,6 +306,14 @@ async function handleCopy() {
     return;
   }
 
+  // Check if Clipboard API with ClipboardItem is supported (not available in Firefox)
+  if (!navigator.clipboard || typeof ClipboardItem === 'undefined') {
+    // Fallback: trigger a download instead
+    showToast('Clipboard not supported — downloading instead.', 'info');
+    qrCode.download({ name: 'qrgenplus-code', extension: 'png' });
+    return;
+  }
+
   try {
     // Convert canvas to blob and copy via Clipboard API
     canvas.toBlob(async (blob) => {
@@ -317,11 +327,14 @@ async function handleCopy() {
         setTimeout(() => { copyBtn.innerHTML = originalHTML; }, 2000);
         showToast('✅ QR code copied to clipboard!', 'success');
       } catch {
-        showToast('Copy failed — try downloading instead.', 'error');
+        // Fallback on permission denied / secure context issues
+        showToast('Copy failed — downloading instead.', 'info');
+        qrCode.download({ name: 'qrgenplus-code', extension: 'png' });
       }
     }, 'image/png');
   } catch {
-    showToast('Copy not supported in this browser.', 'error');
+    showToast('Copy not supported — downloading instead.', 'info');
+    qrCode.download({ name: 'qrgenplus-code', extension: 'png' });
   }
 }
 
@@ -422,15 +435,33 @@ function escapeHtml(str) {
 /* ============================================================
    MOBILE NAV TOGGLE
    ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
+function initMobileNav() {
   const hamburger = document.getElementById('nav-hamburger');
   const mobileMenu = document.getElementById('mobile-nav-menu');
 
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', () => {
-      const open = mobileMenu.classList.toggle('open');
-      hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
-      mobileMenu.style.display = open ? 'flex' : 'none';
+  if (!hamburger || !mobileMenu) return;
+
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    mobileMenu.style.display = open ? 'flex' : 'none';
+  });
+
+  // Close menu when any nav link is tapped (mobile UX)
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      mobileMenu.style.display = 'none';
+      hamburger.setAttribute('aria-expanded', 'false');
     });
-  }
-});
+  });
+}
+
+/* ============================================================
+   DYNAMIC COPYRIGHT YEAR
+   ============================================================ */
+function initDynamicCopyright() {
+  const els = document.querySelectorAll('.copyright-year');
+  const year = new Date().getFullYear();
+  els.forEach(el => { el.textContent = year; });
+}
