@@ -60,7 +60,7 @@ let inputLink, inputText;
 let inputWifiSsid, inputWifiPass, inputWifiSec;
 let inputImage;
 let hintLink;
-let modalEdit, btnCloseModal, btnApplyEdit, colorFg, colorBg, inputQrLabel;
+let modalEdit, btnCloseModal, btnApplyEdit, btnDefaultEdit, colorFg, colorBg, inputQrLabel;
 let inputVcardFname, inputVcardLname, inputVcardPhone, inputVcardEmail, inputVcardOrg;
 let inputEmailTo, inputEmailName, inputEmailBody;
 let inputSmsPhone, inputSmsName, inputSmsBody;
@@ -103,6 +103,7 @@ function resolveDOM() {
   modalEdit         = document.getElementById('edit-modal');
   btnCloseModal     = document.getElementById('btn-close-modal');
   btnApplyEdit      = document.getElementById('btn-apply-edit');
+  btnDefaultEdit    = document.getElementById('btn-default-edit');
   colorFg           = document.getElementById('color-fg');
   colorBg           = document.getElementById('color-bg');
   inputQrLabel      = document.getElementById('input-qr-label');
@@ -658,6 +659,13 @@ function bindEditModal() {
       
       const fg = colorFg ? colorFg.value : '#0F172A';
       const bg = colorBg ? colorBg.value : '#FFFFFF';
+      const labelText = inputQrLabel ? inputQrLabel.value.trim() : '';
+      
+      const textNode = document.getElementById('qr-text-label');
+      if (textNode) {
+        textNode.textContent = labelText;
+        textNode.style.display = labelText ? 'block' : 'none';
+      }
       
       qrCode.update({
         dotsOptions: { color: fg, type: 'rounded' },
@@ -670,6 +678,15 @@ function bindEditModal() {
       requestAnimationFrame(() => {
         syncScannerPreview();
       });
+    });
+  }
+
+  if (btnDefaultEdit) {
+    btnDefaultEdit.addEventListener('click', () => {
+      if (colorFg) colorFg.value = '#0F172A';
+      if (colorBg) colorBg.value = '#FFFFFF';
+      if (inputQrLabel) inputQrLabel.value = 'your QRcode';
+      if (btnApplyEdit) btnApplyEdit.click();
     });
   }
 }
