@@ -344,6 +344,18 @@
             <span class="tab-icon" aria-hidden="true">🖼️</span>
             <span class="tab-label">File</span>
           </button>
+          <button class="qr-tab-btn" data-tab="vcard" role="tab" aria-selected="false" aria-controls="panel-vcard" id="tab-vcard">
+            <span class="tab-icon" aria-hidden="true">📇</span>
+            <span class="tab-label">VCard</span>
+          </button>
+          <button class="qr-tab-btn" data-tab="email" role="tab" aria-selected="false" aria-controls="panel-email" id="tab-email">
+            <span class="tab-icon" aria-hidden="true">✉️</span>
+            <span class="tab-label">Email</span>
+          </button>
+          <button class="qr-tab-btn" data-tab="sms" role="tab" aria-selected="false" aria-controls="panel-sms" id="tab-sms">
+            <span class="tab-icon" aria-hidden="true">💬</span>
+            <span class="tab-label">SMS</span>
+          </button>
         </div>
 
         <!-- ------------------------------------------------
@@ -482,6 +494,75 @@
           </button>
         </div>
 
+        <!-- ------------------------------------------------
+             PANEL: VCard — Contact Info
+             ------------------------------------------------ -->
+        <div class="qr-tab-panel" data-panel="vcard" id="panel-vcard" role="tabpanel" aria-labelledby="tab-vcard">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div class="form-group">
+              <label for="input-vcard-fname" class="qr-label">First Name</label>
+              <input type="text" id="input-vcard-fname" class="qr-input" placeholder="John" />
+            </div>
+            <div class="form-group">
+              <label for="input-vcard-lname" class="qr-label">Last Name</label>
+              <input type="text" id="input-vcard-lname" class="qr-input" placeholder="Doe" />
+            </div>
+            <div class="form-group">
+              <label for="input-vcard-phone" class="qr-label">Phone Number</label>
+              <input type="tel" id="input-vcard-phone" class="qr-input" placeholder="+1 234 567 890" />
+            </div>
+            <div class="form-group">
+              <label for="input-vcard-email" class="qr-label">Email Address</label>
+              <input type="email" id="input-vcard-email" class="qr-input" placeholder="john@example.com" />
+            </div>
+            <div class="form-group sm:col-span-2">
+              <label for="input-vcard-org" class="qr-label">Organization / Company</label>
+              <input type="text" id="input-vcard-org" class="qr-input" placeholder="Acme Corp" />
+            </div>
+          </div>
+          <button id="btn-generate-vcard" class="qr-btn-generate" type="button">
+            ⚡ Generate VCard QR Code
+          </button>
+        </div>
+
+        <!-- ------------------------------------------------
+             PANEL: Email
+             ------------------------------------------------ -->
+        <div class="qr-tab-panel" data-panel="email" id="panel-email" role="tabpanel" aria-labelledby="tab-email">
+          <div class="form-group mb-4">
+            <label for="input-email-to" class="qr-label">To Email Address</label>
+            <input type="email" id="input-email-to" class="qr-input" placeholder="hello@example.com" />
+          </div>
+          <div class="form-group mb-4">
+            <label for="input-email-sub" class="qr-label">Subject</label>
+            <input type="text" id="input-email-sub" class="qr-input" placeholder="Inquiry" />
+          </div>
+          <div class="form-group mb-4">
+            <label for="input-email-body" class="qr-label">Message Body</label>
+            <textarea id="input-email-body" class="qr-input qr-textarea" placeholder="Hello, I would like to..."></textarea>
+          </div>
+          <button id="btn-generate-email" class="qr-btn-generate" type="button">
+            ⚡ Generate Email QR Code
+          </button>
+        </div>
+
+        <!-- ------------------------------------------------
+             PANEL: SMS
+             ------------------------------------------------ -->
+        <div class="qr-tab-panel" data-panel="sms" id="panel-sms" role="tabpanel" aria-labelledby="tab-sms">
+          <div class="form-group mb-4">
+            <label for="input-sms-phone" class="qr-label">Phone Number</label>
+            <input type="tel" id="input-sms-phone" class="qr-input" placeholder="+1 234 567 890" />
+          </div>
+          <div class="form-group mb-4">
+            <label for="input-sms-msg" class="qr-label">Message</label>
+            <textarea id="input-sms-msg" class="qr-input qr-textarea" placeholder="Text message here..."></textarea>
+          </div>
+          <button id="btn-generate-sms" class="qr-btn-generate" type="button">
+            ⚡ Generate SMS QR Code
+          </button>
+        </div>
+
         <!-- ================================================
              QR OUTPUT ROW
              ================================================ -->
@@ -517,21 +598,37 @@
             </div>
 
             <!-- Action Buttons Row -->
-            <div class="qr-action-row">
-              <button id="btn-download" class="qr-btn-download" disabled type="button" aria-label="Download QR code as PNG image">
-                <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                </svg>
-                Download
-              </button>
+            <div class="qr-action-row" style="flex-wrap: wrap;">
+              <div class="flex gap-2 w-full mb-2">
+                <select id="export-format" class="qr-input qr-select flex-1" aria-label="Export Format">
+                  <option value="png">PNG</option>
+                  <option value="svg">SVG</option>
+                  <option value="webp">WebP</option>
+                </select>
+              </div>
+              <div class="flex gap-2 w-full">
+                <button id="btn-download" class="qr-btn-download flex-1 px-1 py-2 text-sm" disabled type="button" aria-label="Download QR code">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true" style="margin-right:2px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                  </svg>
+                  Save
+                </button>
 
-              <button id="btn-copy" class="qr-btn-copy" disabled type="button" aria-label="Copy QR code image to clipboard">
-                <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-                </svg>
-                Copy
-              </button>
+                <button id="btn-copy" class="qr-btn-copy flex-1 px-1 py-2 text-sm" disabled type="button" aria-label="Copy QR code">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true" style="margin-right:2px;">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                  </svg>
+                  Copy
+                </button>
+
+                <button id="btn-edit" class="qr-btn-copy flex-1 px-1 py-2 text-sm" disabled type="button" aria-label="Edit Appearance">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true" style="margin-right:2px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                  Edit
+                </button>
+              </div>
             </div>
 
             <p class="text-xs text-slate-500 text-center leading-relaxed" role="note">
@@ -795,6 +892,33 @@
 
   <!-- Toast Notification Container -->
   <div id="toast-container" role="status" aria-live="polite" aria-atomic="false" aria-label="Notifications"></div>
+
+  <!-- Edit Appearance Modal -->
+  <div id="edit-modal" class="modal-overlay" style="display:none;" aria-hidden="true">
+    <div class="modal-content qr-card p-6 w-full max-w-md mx-4">
+      <h3 class="text-lg font-bold text-white mb-4">Edit Appearance</h3>
+      
+      <div class="form-group mb-4">
+        <label for="color-fg" class="qr-label">QR Code Color</label>
+        <input type="color" id="color-fg" class="qr-input h-10 p-1 w-full" value="#0F172A" />
+      </div>
+      
+      <div class="form-group mb-4">
+        <label for="color-bg" class="qr-label">Background Color</label>
+        <input type="color" id="color-bg" class="qr-input h-10 p-1 w-full" value="#FFFFFF" />
+      </div>
+
+      <div class="form-group mb-6">
+        <label for="input-qr-label" class="qr-label">Text Label (Below QR)</label>
+        <input type="text" id="input-qr-label" class="qr-input" placeholder="e.g. WiFi Password, Instagram" />
+      </div>
+
+      <div class="flex justify-end gap-3 mt-4">
+        <button id="btn-close-modal" class="qr-btn-copy px-4 py-2" type="button">Cancel</button>
+        <button id="btn-apply-edit" class="qr-btn-download px-4 py-2" type="button">Apply</button>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>

@@ -54,12 +54,16 @@ let activeTab    = 'link'; // Currently active tab id
    DOM REFERENCES (resolved at DOMContentLoaded)
    ============================================================ */
 let canvasWrapper, canvasPlaceholder, scannerImg;
-let downloadBtn, copyBtn;
+let downloadBtn, copyBtn, editBtn, exportFormat;
 let tabs, panels;
 let inputLink, inputText;
 let inputWifiSsid, inputWifiPass, inputWifiSec;
 let inputImage;
 let hintLink;
+let modalEdit, btnCloseModal, btnApplyEdit, colorFg, colorBg, inputQrLabel;
+let inputVcardFname, inputVcardLname, inputVcardPhone, inputVcardEmail, inputVcardOrg;
+let inputEmailTo, inputEmailSub, inputEmailBody;
+let inputSmsPhone, inputSmsMsg;
 
 /* ============================================================
    INITIALISE
@@ -71,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
   bindInputs();
   bindDownload();
   bindCopy();
+  bindEditModal();
   updateDownloadBtn(false);
   initMobileNav();
   initDynamicCopyright();
@@ -82,6 +87,8 @@ function resolveDOM() {
   scannerImg        = document.getElementById('scanner-canvas');
   downloadBtn       = document.getElementById('btn-download');
   copyBtn           = document.getElementById('btn-copy');
+  editBtn           = document.getElementById('btn-edit');
+  exportFormat      = document.getElementById('export-format');
   tabs              = document.querySelectorAll('.qr-tab-btn');
   panels            = document.querySelectorAll('.qr-tab-panel');
   inputLink         = document.getElementById('input-link');
@@ -91,6 +98,26 @@ function resolveDOM() {
   inputWifiSec      = document.getElementById('input-wifi-sec');
   inputImage        = document.getElementById('input-image');
   hintLink          = document.getElementById('hint-link');
+
+  modalEdit         = document.getElementById('edit-modal');
+  btnCloseModal     = document.getElementById('btn-close-modal');
+  btnApplyEdit      = document.getElementById('btn-apply-edit');
+  colorFg           = document.getElementById('color-fg');
+  colorBg           = document.getElementById('color-bg');
+  inputQrLabel      = document.getElementById('input-qr-label');
+
+  inputVcardFname   = document.getElementById('input-vcard-fname');
+  inputVcardLname   = document.getElementById('input-vcard-lname');
+  inputVcardPhone   = document.getElementById('input-vcard-phone');
+  inputVcardEmail   = document.getElementById('input-vcard-email');
+  inputVcardOrg     = document.getElementById('input-vcard-org');
+  
+  inputEmailTo      = document.getElementById('input-email-to');
+  inputEmailSub     = document.getElementById('input-email-sub');
+  inputEmailBody    = document.getElementById('input-email-body');
+
+  inputSmsPhone     = document.getElementById('input-sms-phone');
+  inputSmsMsg       = document.getElementById('input-sms-msg');
 }
 
 /* ============================================================
@@ -133,13 +160,47 @@ function generateQR(data) {
   });
 }
 
+function getWrapperCanvas() {
+  const original = canvasWrapper.querySelector('canvas');
+  if (!original) return null;
+  const labelText = inputQrLabel ? inputQrLabel.value.trim() : '';
+  if (!labelText) return original; // No text, just use original
+
+  const width = original.width;
+  const qrHeight = original.height;
+  const textHeight = 40;
+  const padding = 10;
+  
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = qrHeight + textHeight + padding;
+  const ctx = canvas.getContext('2d');
+  
+  // Fill background
+  const bgColor = colorBg ? colorBg.value : '#FFFFFF';
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  // Draw QR
+  ctx.drawImage(original, 0, 0);
+  
+  // Draw text
+  const fgColor = colorFg ? colorFg.value : '#0F172A';
+  ctx.fillStyle = fgColor;
+  ctx.font = 'bold 20px "Inter", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(labelText, width / 2, qrHeight + textHeight / 2 + padding / 2);
+  
+  return canvas;
+}
+
 /**
  * Copy the rendered QR canvas into the smaller scanner preview.
  */
 function syncScannerPreview() {
-  const src = canvasWrapper.querySelector('canvas');
-  if (!src || !scannerImg) return;
-  scannerImg.src = src.toDataURL('image/png');
+  const canvas = getWrapperCanvas();
+  if (!canvas || !scannerImg) return;
+  scannerImg.src = canvas.toDataURL('image/png');
 }
 
 /* ============================================================
@@ -195,6 +256,18 @@ function bindInputs() {
   // ----- Image/PDF Tab -----
   const btnImage = document.getElementById('btn-generate-image');
   if (btnImage) btnImage.addEventListener('click', handleImageGenerate);
+
+  // ----- VCard Tab -----
+  const btnVcard = document.getElementById('btn-generate-vcard');
+  if (btnVcard) btnVcard.addEventListener('click', handleVcardGenerate);
+
+  // ----- Email Tab -----
+  const btnEmail = document.getElementById('btn-generate-email');
+  if (btnEmail) btnEmail.addEventListener('click', handleEmailGenerate);
+
+  // ----- SMS Tab -----
+  const btnSms = document.getElementById('btn-generate-sms');
+  if (btnSms) btnSms.addEventListener('click', handleSmsGenerate);
 }
 
 /* ============================================================
@@ -242,6 +315,49 @@ function handleImageGenerate() {
   generateQR(val);
 }
 
+function handleVcardGenerate() {
+  const fn = inputVcardFname ? inputVcardFname.value.trim() : '';
+  const ln = inputVcardLname ? inputVcardLname.value.trim() : '';
+  const phone = inputVcardPhone ? inputVcardPhone.value.trim() : '';
+  const email = inputVcardEmail ? inputVcardEmail.value.trim() : '';
+  const org = inputVcardOrg ? inputVcardOrg.value.trim() : '';
+  
+  if (!fn && !ln && !phone && !email && !org) {
+    showToast('Please fill out at least one contact field.', 'error');
+    return;
+  }
+  
+  const vcard = `BEGIN:VCARD\nVERSION:3.0\nN:${ln};${fn};;;\nFN:${fn} ${ln}\nORG:${org}\nTEL;TYPE=CELL:${phone}\nEMAIL:${email}\nEND:VCARD`;
+  generateQR(vcard);
+}
+
+function handleEmailGenerate() {
+  const to = inputEmailTo ? inputEmailTo.value.trim() : '';
+  const sub = inputEmailSub ? inputEmailSub.value.trim() : '';
+  const body = inputEmailBody ? inputEmailBody.value.trim() : '';
+  
+  if (!to) {
+    showToast('Recipient email is required.', 'error');
+    return;
+  }
+  
+  const mailto = `mailto:${to}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
+  generateQR(mailto);
+}
+
+function handleSmsGenerate() {
+  const phone = inputSmsPhone ? inputSmsPhone.value.trim() : '';
+  const msg = inputSmsMsg ? inputSmsMsg.value.trim() : '';
+  
+  if (!phone) {
+    showToast('Phone number is required.', 'error');
+    return;
+  }
+  
+  const smsto = `smsto:${phone}:${msg}`;
+  generateQR(smsto);
+}
+
 /* ============================================================
    WIFI STRING FORMATTER
    Reference: https://github.com/zxing/zxing/wiki/Barcode-Contents#wifi-network-config-android-ios-11
@@ -276,13 +392,31 @@ function handleDownload() {
     return;
   }
 
-  // Use QRCodeStyling's built-in download method
-  qrCode.download({
-    name:      'qrgenplus-code',
-    extension: 'png',
-  });
+  const format = exportFormat ? exportFormat.value : 'png';
+  const labelText = inputQrLabel ? inputQrLabel.value.trim() : '';
 
-  showToast('✅ QR code saved as PNG!', 'success');
+  if (format === 'svg' && !labelText) {
+    qrCode.download({ name: 'qrgenplus-code', extension: 'svg' });
+    showToast('✅ QR code saved as SVG!', 'success');
+    return;
+  }
+
+  const canvas = getWrapperCanvas();
+  if (!canvas) return;
+  
+  const ext = format === 'svg' ? 'png' : format; 
+  if (format === 'svg' && labelText) {
+      showToast('SVG export with custom text is converted to PNG.', 'info');
+  }
+
+  const url = canvas.toDataURL(`image/${ext}`);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `qrgenplus-code.${ext}`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast(`✅ QR code saved as ${ext.toUpperCase()}!`, 'success');
 }
 
 /* ============================================================
@@ -300,7 +434,7 @@ async function handleCopy() {
   }
 
   // Get the canvas element rendered by qrcode-styling
-  const canvas = canvasWrapper ? canvasWrapper.querySelector('canvas') : null;
+  const canvas = getWrapperCanvas();
   if (!canvas) {
     showToast('Could not find QR canvas to copy.', 'error');
     return;
@@ -310,7 +444,7 @@ async function handleCopy() {
   if (!navigator.clipboard || typeof ClipboardItem === 'undefined') {
     // Fallback: trigger a download instead
     showToast('Clipboard not supported — downloading instead.', 'info');
-    qrCode.download({ name: 'qrgenplus-code', extension: 'png' });
+    handleDownload();
     return;
   }
 
@@ -329,12 +463,12 @@ async function handleCopy() {
       } catch {
         // Fallback on permission denied / secure context issues
         showToast('Copy failed — downloading instead.', 'info');
-        qrCode.download({ name: 'qrgenplus-code', extension: 'png' });
+        handleDownload();
       }
     }, 'image/png');
   } catch {
     showToast('Copy not supported — downloading instead.', 'info');
-    qrCode.download({ name: 'qrgenplus-code', extension: 'png' });
+    handleDownload();
   }
 }
 
@@ -393,6 +527,41 @@ function validateURL(value) {
 function updateDownloadBtn(enabled) {
   if (downloadBtn) downloadBtn.disabled = !enabled;
   if (copyBtn)     copyBtn.disabled     = !enabled;
+  if (editBtn)     editBtn.disabled     = !enabled;
+}
+
+function bindEditModal() {
+  if (editBtn) {
+    editBtn.addEventListener('click', () => {
+      if (modalEdit) modalEdit.style.display = 'flex';
+    });
+  }
+  if (btnCloseModal) {
+    btnCloseModal.addEventListener('click', () => {
+      if (modalEdit) modalEdit.style.display = 'none';
+    });
+  }
+  if (btnApplyEdit) {
+    btnApplyEdit.addEventListener('click', () => {
+      if (modalEdit) modalEdit.style.display = 'none';
+      if (!currentData) return;
+      
+      const fg = colorFg ? colorFg.value : '#0F172A';
+      const bg = colorBg ? colorBg.value : '#FFFFFF';
+      
+      qrCode.update({
+        dotsOptions: { color: fg, type: 'rounded' },
+        cornersSquareOptions: { color: fg, type: 'extra-rounded' },
+        cornersDotOptions: { color: fg, type: 'dot' },
+        backgroundOptions: { color: bg }
+      });
+      
+      // Syncing preview after rendering
+      requestAnimationFrame(() => {
+        syncScannerPreview();
+      });
+    });
+  }
 }
 
 function showHint(el, message, type = 'muted') {
