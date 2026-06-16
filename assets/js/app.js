@@ -685,7 +685,6 @@ function bindEditModal() {
     btnDefaultEdit.addEventListener('click', () => {
       if (colorFg) colorFg.value = '#0F172A';
       if (colorBg) colorBg.value = '#FFFFFF';
-      if (inputQrLabel) inputQrLabel.value = 'your QRcode';
       if (btnApplyEdit) btnApplyEdit.click();
     });
   }
