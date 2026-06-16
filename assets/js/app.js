@@ -62,8 +62,8 @@ let inputImage;
 let hintLink;
 let modalEdit, btnCloseModal, btnApplyEdit, colorFg, colorBg, inputQrLabel;
 let inputVcardFname, inputVcardLname, inputVcardPhone, inputVcardEmail, inputVcardOrg;
-let inputEmailTo, inputEmailSub, inputEmailBody;
-let inputSmsPhone, inputSmsMsg;
+let inputEmailTo;
+let inputSmsPhone;
 let inputBatch;
 
 /* ============================================================
@@ -114,11 +114,8 @@ function resolveDOM() {
   inputVcardOrg     = document.getElementById('input-vcard-org');
   
   inputEmailTo      = document.getElementById('input-email-to');
-  inputEmailSub     = document.getElementById('input-email-sub');
-  inputEmailBody    = document.getElementById('input-email-body');
 
   inputSmsPhone     = document.getElementById('input-sms-phone');
-  inputSmsMsg       = document.getElementById('input-sms-msg');
   inputBatch        = document.getElementById('input-batch');
 }
 
@@ -339,26 +336,23 @@ function handleVcardGenerate() {
 
 function handleEmailGenerate() {
   const to = inputEmailTo ? inputEmailTo.value.trim() : '';
-  const sub = inputEmailSub ? inputEmailSub.value.trim() : '';
-  const body = inputEmailBody ? inputEmailBody.value.trim() : '';
   
   if (!to) {
     showToast('Recipient email is required.', 'error');
     return;
   }
   
-  const mailto = `mailto:${to}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
+  const mailto = `mailto:${to}`;
   generateQR(mailto);
 }
 
 function handleSmsGenerate() {
   const phone = inputSmsPhone ? inputSmsPhone.value.trim() : '';
-  const msg   = inputSmsMsg   ? inputSmsMsg.value.trim()   : '';
 
   if (!phone) { showToast('Phone Number is required.', 'error'); return; }
 
-  const smsString = buildSmsString(phone, msg);
-  generateQR(smsString);
+  const smsto = `smsto:${phone}`;
+  generateQR(smsto);
 }
 
 async function handleBatchGenerate() {
