@@ -240,41 +240,73 @@ function switchTab(tabId) {
    INPUT BINDING — Generate on button click or Enter key
    ============================================================ */
 function bindInputs() {
+  const bindEnter = (inputs, handler) => {
+    inputs.forEach(input => {
+      if (input) {
+        input.addEventListener('keydown', e => {
+          if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
+            e.preventDefault();
+            handler();
+          }
+        });
+      }
+    });
+  };
+
+  const bindCtrlEnter = (inputs, handler) => {
+    inputs.forEach(input => {
+      if (input) {
+        input.addEventListener('keydown', e => {
+          if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+            handler();
+          }
+        });
+      }
+    });
+  };
+
   // ----- Link Tab -----
   const btnLink = document.getElementById('btn-generate-link');
   if (btnLink) btnLink.addEventListener('click', handleLinkGenerate);
-  if (inputLink) {
-    inputLink.addEventListener('keydown', e => { if (e.key === 'Enter') handleLinkGenerate(); });
-    inputLink.addEventListener('input', () => validateURL(inputLink.value));
-  }
+  if (inputLink) inputLink.addEventListener('input', () => validateURL(inputLink.value));
+  bindEnter([inputLink], handleLinkGenerate);
 
   // ----- Text Tab -----
   const btnText = document.getElementById('btn-generate-text');
   if (btnText) btnText.addEventListener('click', handleTextGenerate);
+  bindCtrlEnter([inputText], handleTextGenerate);
 
   // ----- WiFi Tab -----
   const btnWifi = document.getElementById('btn-generate-wifi');
   if (btnWifi) btnWifi.addEventListener('click', handleWifiGenerate);
+  bindEnter([inputWifiSsid, inputWifiPass, inputWifiSec], handleWifiGenerate);
 
   // ----- Image/PDF Tab -----
   const btnImage = document.getElementById('btn-generate-image');
   if (btnImage) btnImage.addEventListener('click', handleImageGenerate);
+  bindEnter([inputImage], handleImageGenerate);
 
   // ----- VCard Tab -----
   const btnVcard = document.getElementById('btn-generate-vcard');
   if (btnVcard) btnVcard.addEventListener('click', handleVcardGenerate);
+  bindEnter([inputVcardFname, inputVcardLname, inputVcardPhone, inputVcardEmail, inputVcardOrg], handleVcardGenerate);
 
   // ----- Email Tab -----
   const btnEmail = document.getElementById('btn-generate-email');
   if (btnEmail) btnEmail.addEventListener('click', handleEmailGenerate);
+  bindEnter([inputEmailTo, inputEmailName], handleEmailGenerate);
+  bindCtrlEnter([inputEmailBody], handleEmailGenerate);
 
   // ----- SMS Tab -----
   const btnSms = document.getElementById('btn-generate-sms');
   if (btnSms) btnSms.addEventListener('click', handleSmsGenerate);
+  bindEnter([inputSmsPhone, inputSmsName], handleSmsGenerate);
+  bindCtrlEnter([inputSmsBody], handleSmsGenerate);
 
   // ----- Batch Tab -----
   const btnBatch = document.getElementById('btn-generate-batch');
   if (btnBatch) btnBatch.addEventListener('click', handleBatchGenerate);
+  bindCtrlEnter([inputBatch], handleBatchGenerate);
 }
 
 /* ============================================================
