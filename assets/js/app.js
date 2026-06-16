@@ -11,7 +11,7 @@
    CONSTANTS
    ============================================================ */
 const QR_SIZE    = 200;
-const QR_MARGIN  = 1;
+const QR_MARGIN  = 15;
 
 const QR_STYLE_OPTIONS = {
   width:  QR_SIZE,
