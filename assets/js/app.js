@@ -275,7 +275,7 @@ function bindInputs() {
   // ----- Text Tab -----
   const btnText = document.getElementById('btn-generate-text');
   if (btnText) btnText.addEventListener('click', handleTextGenerate);
-  bindCtrlEnter([inputText], handleTextGenerate);
+  bindEnter([inputText], handleTextGenerate);
 
   // ----- WiFi Tab -----
   const btnWifi = document.getElementById('btn-generate-wifi');
@@ -295,16 +295,16 @@ function bindInputs() {
   // ----- Email Tab -----
   const btnEmail = document.getElementById('btn-generate-email');
   if (btnEmail) btnEmail.addEventListener('click', handleEmailGenerate);
-  bindEnter([inputEmailTo, inputEmailName], handleEmailGenerate);
-  bindCtrlEnter([inputEmailBody], handleEmailGenerate);
+  bindEnter([inputEmailTo, inputEmailName, inputEmailBody], handleEmailGenerate);
 
   // ----- SMS Tab -----
   const btnSms = document.getElementById('btn-generate-sms');
   if (btnSms) btnSms.addEventListener('click', handleSmsGenerate);
-  bindEnter([inputSmsPhone, inputSmsName], handleSmsGenerate);
-  bindCtrlEnter([inputSmsBody], handleSmsGenerate);
+  bindEnter([inputSmsPhone, inputSmsName, inputSmsBody], handleSmsGenerate);
 
   // ----- Batch Tab -----
+  // For batch input, we want to preserve Enter for new lines by default since it requires one per line.
+  // We will keep Batch as Ctrl+Enter.
   const btnBatch = document.getElementById('btn-generate-batch');
   if (btnBatch) btnBatch.addEventListener('click', handleBatchGenerate);
   bindCtrlEnter([inputBatch], handleBatchGenerate);
