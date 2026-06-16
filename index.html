@@ -571,13 +571,16 @@
         <div class="flex flex-col sm:flex-row gap-6 items-center sm:items-start mt-1">
 
           <!-- QR Canvas -->
-          <div>
+          <div class="flex flex-col items-center">
             <p class="qr-label text-center mb-2.5" id="qr-output-label">Generated QR Code</p>
             <div id="qr-canvas-wrapper" class="qr-canvas-wrapper" role="img" aria-labelledby="qr-output-label" aria-live="polite">
               <div id="qr-placeholder" class="qr-canvas-placeholder" aria-label="QR code output area — empty">
                 <span class="placeholder-icon" aria-hidden="true">⬛</span>
                 <span>Your QR code<br/>appears here</span>
               </div>
+            </div>
+            <div class="mt-4 bg-white border border-slate-200 shadow-sm rounded-lg py-2 px-6 text-center w-full max-w-[200px]">
+              <span class="text-slate-400 font-medium text-sm">your QRcode</span>
             </div>
           </div>
 
