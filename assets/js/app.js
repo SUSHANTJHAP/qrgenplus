@@ -24,15 +24,15 @@ const QR_STYLE_OPTIONS = {
   },
   dotsOptions: {
     color: '#0F172A',
-    type: 'rounded',
+    type: 'square',
   },
   cornersSquareOptions: {
-    color: '#6366F1',
-    type: 'extra-rounded',
+    color: '#0F172A',
+    type: 'square',
   },
   cornersDotOptions: {
-    color: '#4F46E5',
-    type: 'dot',
+    color: '#0F172A',
+    type: 'square',
   },
   backgroundOptions: {
     color: '#FFFFFF',
@@ -438,7 +438,9 @@ async function handleBatchGenerate() {
       const fg = colorFg ? colorFg.value : '#0F172A';
       const bg = colorBg ? colorBg.value : '#FFFFFF';
       qr.update({
-        dotsOptions: { color: fg, type: 'rounded' },
+        dotsOptions: { color: fg, type: 'square' },
+        cornersSquareOptions: { color: fg, type: 'square' },
+        cornersDotOptions: { color: fg, type: 'square' },
         backgroundOptions: { color: bg }
       });
 
@@ -668,9 +670,9 @@ function bindEditModal() {
       }
       
       qrCode.update({
-        dotsOptions: { color: fg, type: 'rounded' },
-        cornersSquareOptions: { color: fg, type: 'extra-rounded' },
-        cornersDotOptions: { color: fg, type: 'dot' },
+        dotsOptions: { color: fg, type: 'square' },
+        cornersSquareOptions: { color: fg, type: 'square' },
+        cornersDotOptions: { color: fg, type: 'square' },
         backgroundOptions: { color: bg }
       });
       
