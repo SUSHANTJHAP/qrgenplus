@@ -62,8 +62,8 @@ let inputImage;
 let hintLink;
 let modalEdit, btnCloseModal, btnApplyEdit, colorFg, colorBg, inputQrLabel;
 let inputVcardFname, inputVcardLname, inputVcardPhone, inputVcardEmail, inputVcardOrg;
-let inputEmailTo;
-let inputSmsPhone;
+let inputEmailTo, inputEmailName, inputEmailBody;
+let inputSmsPhone, inputSmsName, inputSmsBody;
 let inputBatch;
 
 /* ============================================================
@@ -114,8 +114,12 @@ function resolveDOM() {
   inputVcardOrg     = document.getElementById('input-vcard-org');
   
   inputEmailTo      = document.getElementById('input-email-to');
+  inputEmailName    = document.getElementById('input-email-name');
+  inputEmailBody    = document.getElementById('input-email-body');
 
   inputSmsPhone     = document.getElementById('input-sms-phone');
+  inputSmsName      = document.getElementById('input-sms-name');
+  inputSmsBody      = document.getElementById('input-sms-body');
   inputBatch        = document.getElementById('input-batch');
 }
 
@@ -336,22 +340,41 @@ function handleVcardGenerate() {
 
 function handleEmailGenerate() {
   const to = inputEmailTo ? inputEmailTo.value.trim() : '';
+  const name = inputEmailName ? inputEmailName.value.trim() : '';
+  const body = inputEmailBody ? inputEmailBody.value.trim() : '';
   
   if (!to) {
     showToast('Recipient email is required.', 'error');
     return;
   }
   
-  const mailto = `mailto:${to}`;
+  const recipient = name ? `${name} <${to}>` : to;
+  let mailto = `mailto:${recipient}`;
+  if (body) {
+    mailto += `?body=${encodeURIComponent(body)}`;
+  }
+  
   generateQR(mailto);
 }
 
 function handleSmsGenerate() {
   const phone = inputSmsPhone ? inputSmsPhone.value.trim() : '';
+  const name = inputSmsName ? inputSmsName.value.trim() : '';
+  const body = inputSmsBody ? inputSmsBody.value.trim() : '';
 
   if (!phone) { showToast('Phone Number is required.', 'error'); return; }
 
-  const smsto = `smsto:${phone}`;
+  let finalBody = body;
+  if (name && finalBody) {
+    finalBody = `Hi ${name},\n\n${finalBody}`;
+  } else if (name) {
+    finalBody = `Hi ${name}`;
+  }
+
+  let smsto = `smsto:${phone}`;
+  if (finalBody) {
+    smsto += `:${finalBody}`;
+  }
   generateQR(smsto);
 }
 
