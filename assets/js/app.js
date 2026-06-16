@@ -64,6 +64,7 @@ let modalEdit, btnCloseModal, btnApplyEdit, colorFg, colorBg, inputQrLabel;
 let inputVcardFname, inputVcardLname, inputVcardPhone, inputVcardEmail, inputVcardOrg;
 let inputEmailTo, inputEmailSub, inputEmailBody;
 let inputSmsPhone, inputSmsMsg;
+let inputBatch;
 
 /* ============================================================
    INITIALISE
@@ -118,6 +119,7 @@ function resolveDOM() {
 
   inputSmsPhone     = document.getElementById('input-sms-phone');
   inputSmsMsg       = document.getElementById('input-sms-msg');
+  inputBatch        = document.getElementById('input-batch');
 }
 
 /* ============================================================
@@ -268,6 +270,10 @@ function bindInputs() {
   // ----- SMS Tab -----
   const btnSms = document.getElementById('btn-generate-sms');
   if (btnSms) btnSms.addEventListener('click', handleSmsGenerate);
+
+  // ----- Batch Tab -----
+  const btnBatch = document.getElementById('btn-generate-batch');
+  if (btnBatch) btnBatch.addEventListener('click', handleBatchGenerate);
 }
 
 /* ============================================================
@@ -347,15 +353,70 @@ function handleEmailGenerate() {
 
 function handleSmsGenerate() {
   const phone = inputSmsPhone ? inputSmsPhone.value.trim() : '';
-  const msg = inputSmsMsg ? inputSmsMsg.value.trim() : '';
-  
-  if (!phone) {
-    showToast('Phone number is required.', 'error');
+  const msg   = inputSmsMsg   ? inputSmsMsg.value.trim()   : '';
+
+  if (!phone) { showToast('Phone Number is required.', 'error'); return; }
+
+  const smsString = buildSmsString(phone, msg);
+  generateQR(smsString);
+}
+
+async function handleBatchGenerate() {
+  if (typeof JSZip === 'undefined') {
+    showToast('JSZip library is not loaded yet.', 'error');
     return;
   }
-  
-  const smsto = `smsto:${phone}:${msg}`;
-  generateQR(smsto);
+  const val = inputBatch ? inputBatch.value : '';
+  const lines = val.split('\n').map(l => l.trim()).filter(l => l);
+  if (lines.length === 0) { showToast('Please enter at least one line of text or URL.', 'error'); return; }
+  if (lines.length > 500) { showToast('Maximum 500 codes per batch to prevent browser freezing.', 'error'); return; }
+
+  showToast(`Generating ${lines.length} QR codes... Please wait.`, 'info');
+  const btn = document.getElementById('btn-generate-batch');
+  if (btn) btn.disabled = true;
+
+  try {
+    const zip = new JSZip();
+    const format = exportFormat ? exportFormat.value : 'png';
+    const ext = format === 'svg' ? 'svg' : format;
+
+    for (let i = 0; i < lines.length; i++) {
+      const dataString = lines[i];
+      const qr = new QRCodeStyling({ ...QR_STYLE_OPTIONS, data: dataString });
+      
+      // Apply current appearance options
+      const fg = colorFg ? colorFg.value : '#0F172A';
+      const bg = colorBg ? colorBg.value : '#FFFFFF';
+      qr.update({
+        dotsOptions: { color: fg, type: 'rounded' },
+        backgroundOptions: { color: bg }
+      });
+
+      const blob = await qr.getRawData(ext);
+      // Clean up filename: max 15 chars, alphanumeric
+      let cleanName = dataString.replace(/[^a-z0-9]/gi, '_').substring(0, 15);
+      if (!cleanName) cleanName = 'code';
+      const filename = `qr_${i + 1}_${cleanName}.${ext}`;
+      zip.file(filename, blob);
+    }
+
+    const content = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(content);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `qrgenplus_batch.zip`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    showToast(`✅ Batch of ${lines.length} QR codes downloaded as ZIP!`, 'success');
+  } catch (err) {
+    console.error(err);
+    showToast('Error generating batch.', 'error');
+  } finally {
+    if (btn) btn.disabled = false;
+  }
 }
 
 /* ============================================================

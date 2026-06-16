@@ -237,6 +237,7 @@
 
   <!-- QRCode-Styling Library — stable v1.5.0 (client-side, no data leaves browser) -->
   <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
   <!-- App Logic -->
   <script src="assets/js/app.js" defer></script>
 </head>
@@ -355,6 +356,10 @@
           <button class="qr-tab-btn" data-tab="sms" role="tab" aria-selected="false" aria-controls="panel-sms" id="tab-sms">
             <span class="tab-icon" aria-hidden="true">💬</span>
             <span class="tab-label">SMS</span>
+          </button>
+          <button class="qr-tab-btn" data-tab="batch" role="tab" aria-selected="false" aria-controls="panel-batch" id="tab-batch">
+            <span class="tab-icon" aria-hidden="true">📦</span>
+            <span class="tab-label">Batch</span>
           </button>
         </div>
 
@@ -560,6 +565,20 @@
           </div>
           <button id="btn-generate-sms" class="qr-btn-generate" type="button">
             ⚡ Generate SMS QR Code
+          </button>
+        </div>
+
+        <!-- ------------------------------------------------
+             PANEL: Batch
+             ------------------------------------------------ -->
+        <div class="qr-tab-panel" data-panel="batch" id="panel-batch" role="tabpanel" aria-labelledby="tab-batch">
+          <p class="text-sm text-slate-500 mb-4">Generate multiple QR codes at once. Enter one URL or text string per line. Downloading will create a .zip file containing all QR codes.</p>
+          <div class="form-group mb-4">
+            <label for="input-batch" class="qr-label">Batch Input (One per line)</label>
+            <textarea id="input-batch" class="qr-input qr-textarea h-40" placeholder="https://example.com&#10;https://google.com&#10;Hello World"></textarea>
+          </div>
+          <button id="btn-generate-batch" class="qr-btn-generate" type="button">
+            ⚡ Generate Batch QR Codes
           </button>
         </div>
 
