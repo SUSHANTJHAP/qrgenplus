@@ -690,6 +690,16 @@ function bindEditModal() {
       if (btnApplyEdit) btnApplyEdit.click();
     });
   }
+
+  // Allow pressing Enter inside the modal to apply changes
+  if (modalEdit) {
+    modalEdit.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (btnApplyEdit) btnApplyEdit.click();
+      }
+    });
+  }
 }
 
 function showHint(el, message, type = 'muted') {
