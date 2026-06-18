@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premium Dashboard — QRGenPlus</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            navy:   { DEFAULT: '#0F172A', mid: '#1E293B', light: '#334155' },
+            indigo: { DEFAULT: '#6366F1', dark: '#4F46E5' },
+            teal:   { DEFAULT: '#14B8A6' },
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/custom.css" />
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
+  
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-indigo text-white rounded-lg flex items-center justify-center font-bold text-lg">QR</div>
+        <span class="font-bold text-xl tracking-tight text-navy">QRGenPlus</span>
+      </a>
+      <nav class="flex items-center gap-6">
+        <a href="/" class="text-sm font-medium text-slate-600 hover:text-indigo transition">Generator</a>
+        <button id="btn-logout" class="text-sm font-medium text-slate-600 hover:text-red-500 transition hidden">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+    
+    <div id="loading-state" class="text-center py-20 text-slate-500">Loading dashboard...</div>
+
+    <!-- Not Subscribed State -->
+    <div id="unsubscribed-state" class="hidden max-w-lg mx-auto py-12">
+      <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden text-center p-8 sm:p-10">
+        <div class="w-16 h-16 bg-indigo/10 text-indigo rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        </div>
+        <h1 class="text-3xl font-extrabold text-navy mb-2">QRGenPlus Premium</h1>
+        <p class="text-slate-500 mb-6">Unlock powerful tools for your business and marketing campaigns.</p>
+        
+        <div class="text-4xl font-black text-navy mb-8">
+          $6<span class="text-lg font-medium text-slate-400">/mo</span>
+        </div>
+
+        <ul class="text-left space-y-4 mb-8">
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-teal mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span class="text-slate-600"><strong>Editable Links:</strong> Update destination URLs anytime without changing the physical QR code.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-teal mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span class="text-slate-600"><strong>Scan Analytics:</strong> Track user engagement and total scans in real-time.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-teal mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span class="text-slate-600"><strong>Error Protection:</strong> Built-in URL validation to prevent dead links.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-teal mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span class="text-slate-600"><strong>Unlimited Scans:</strong> No monthly scan limits or hidden fees.</span>
+          </li>
+        </ul>
+
+        <!-- Billing Toggle -->
+        <div class="flex items-center justify-center gap-4 mb-8 bg-indigo-50 border border-indigo-100 p-2 rounded-full w-max mx-auto shadow-sm">
+          <span id="label-monthly" class="text-indigo-900 font-bold text-sm px-2">Monthly</span>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="toggle-billing" class="sr-only peer">
+            <div class="w-12 h-7 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-indigo-600"></div>
+          </label>
+          <span id="label-yearly" class="text-slate-500 font-medium text-sm px-2 flex items-center gap-2">
+            Yearly <span class="bg-teal-100 text-teal-800 text-[10px] uppercase font-bold px-1.5 py-0.5 rounded">Save 20%</span>
+          </span>
+        </div>
+
+        <div class="space-y-4">
+          <button id="btn-subscribe-paddle" class="bg-indigo hover:bg-indigo-dark text-white px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all w-full text-lg flex flex-col items-center justify-center">
+            <span id="text-paddle-price">Subscribe via Paddle ($6.00 / €5.50 / month)</span>
+            <span class="text-xs font-normal text-indigo-200 mt-1">Pay with Cards, Apple Pay, or iDEAL</span>
+          </button>
+          
+          <button id="btn-subscribe-razorpay" class="bg-slate-800 hover:bg-slate-900 text-white px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all w-full text-lg flex flex-col items-center justify-center">
+            <span id="text-razorpay-price">Subscribe via Razorpay (₹499 / month)</span>
+            <span class="text-xs font-normal text-slate-400 mt-1">Pay with NetBanking or Indian Cards</span>
+            <span class="text-[10px] font-normal text-slate-500 mt-0.5">Includes instant support for GPay, PhonePe, and all major UPI handles.</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard State -->
+    <div id="dashboard-state" class="hidden">
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <h1 class="text-3xl font-extrabold text-navy">Active Campaigns</h1>
+          <p class="text-slate-500 mt-1">Manage and track your editable QR codes.</p>
+        </div>
+        <a href="/?mode=dynamic" class="bg-indigo hover:bg-indigo-dark text-white px-5 py-2.5 rounded-lg font-semibold shadow transition-all flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          Create New
+        </a>
+      </div>
+
+      <!-- Links Table -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="overflow-x-auto table-scrollbar pb-2">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+                <th class="px-6 py-4 font-semibold">Title</th>
+                <th class="px-6 py-4 font-semibold">Short URL</th>
+                <th class="px-6 py-4 font-semibold">Destination</th>
+                <th class="px-6 py-4 font-semibold text-right">Scans</th>
+                <th class="px-6 py-4 font-semibold text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="links-tbody" class="divide-y divide-slate-100 text-sm">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Edit Modal -->
+  <div id="edit-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform scale-95 transition-transform origin-center">
+      <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+        <h3 class="text-lg font-bold text-navy">Edit Link Details</h3>
+        <button id="btn-close-modal" class="text-slate-400 hover:text-slate-600 transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <form id="edit-form" class="p-6 space-y-4" onsubmit="event.preventDefault();">
+        <input type="hidden" id="input-edit-id" />
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">Title</label>
+          <input type="text" id="input-edit-title" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 focus:border-indigo focus:ring-1 focus:ring-indigo outline-none transition" placeholder="e.g. Summer Campaign" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">Destination URL</label>
+          <input type="url" id="input-edit-url" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 focus:border-indigo focus:ring-1 focus:ring-indigo outline-none transition" placeholder="https://" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">Custom Short URL <span class="text-xs text-slate-400 font-normal ml-1">(e.g. localhost:3000/r/...)</span></label>
+          <div class="flex items-center">
+            <span class="bg-slate-100 border border-r-0 border-slate-200 rounded-l-lg px-3 py-2.5 text-slate-500 text-sm">/r/</span>
+            <input type="text" id="input-edit-short-id" class="w-full border border-slate-200 rounded-r-lg px-4 py-2.5 focus:border-indigo focus:ring-1 focus:ring-indigo outline-none transition" placeholder="my-custom-link" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">Password Protection <span class="text-xs text-slate-400 font-normal ml-1">(Premium)</span></label>
+          <input type="password" id="input-edit-password" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 focus:border-indigo focus:ring-1 focus:ring-indigo outline-none transition" placeholder="Leave blank for no password" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">iOS Destination URL <span class="text-xs text-slate-400 font-normal ml-1">(Premium Routing)</span></label>
+          <input type="url" id="input-edit-ios" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 focus:border-indigo focus:ring-1 focus:ring-indigo outline-none transition" placeholder="e.g. App Store Link" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">Android Destination URL <span class="text-xs text-slate-400 font-normal ml-1">(Premium Routing)</span></label>
+          <input type="url" id="input-edit-android" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 focus:border-indigo focus:ring-1 focus:ring-indigo outline-none transition" placeholder="e.g. Play Store Link" />
+        </div>
+        
+        <div class="flex gap-3 justify-end pt-2">
+          <button id="btn-cancel-edit" class="px-5 py-2.5 rounded-lg font-medium text-slate-600 hover:bg-slate-100 transition">Cancel</button>
+          <button id="btn-save-edit" class="bg-indigo hover:bg-indigo-dark text-white px-5 py-2.5 rounded-lg font-semibold shadow transition">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analytics Modal -->
+  <div id="analytics-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden transform scale-95 transition-transform origin-center">
+      <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+        <div>
+          <h3 class="text-xl font-bold text-navy">Link Analytics</h3>
+          <p id="analytics-subtitle" class="text-sm text-slate-500 mt-1">...</p>
+        </div>
+        <button id="btn-close-analytics" class="text-slate-400 hover:text-slate-600 transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-[600px] overflow-y-auto">
+        <!-- Chart Column -->
+        <div class="md:col-span-2 flex flex-col">
+          <h4 class="text-sm font-semibold text-slate-700 uppercase tracking-wide mb-4">Scans (Last 7 Days)</h4>
+          <div class="flex-grow bg-slate-50 rounded-xl border border-slate-100 p-4 flex items-center justify-center">
+            <canvas id="scansChart"></canvas>
+          </div>
+        </div>
+        <!-- Locations Column -->
+        <div class="flex flex-col">
+          <h4 class="text-sm font-semibold text-slate-700 uppercase tracking-wide mb-4">Top Locations</h4>
+          <div class="flex-grow bg-slate-50 rounded-xl border border-slate-100 p-0 overflow-hidden overflow-y-auto">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-slate-100 text-slate-500">
+                <tr>
+                  <th class="px-4 py-2 font-semibold">Country</th>
+                  <th class="px-4 py-2 font-semibold text-right">Scans</th>
+                </tr>
+              </thead>
+              <tbody id="analytics-locations-tbody" class="divide-y divide-slate-100">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+            <div id="analytics-no-locations" class="p-6 text-center text-slate-400 hidden">
+              No location data yet.
+            </div>
+          </div>
+        </div>
+
+        <!-- OS Column -->
+        <div class="flex flex-col">
+          <h4 class="text-sm font-semibold text-slate-700 uppercase tracking-wide mb-4">Top Systems</h4>
+          <div class="flex-grow bg-slate-50 rounded-xl border border-slate-100 p-0 overflow-hidden overflow-y-auto">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-slate-100 text-slate-500">
+                <tr>
+                  <th class="px-4 py-2 font-semibold">OS</th>
+                  <th class="px-4 py-2 font-semibold text-right">Scans</th>
+                </tr>
+              </thead>
+              <tbody id="analytics-os-tbody" class="divide-y divide-slate-100">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+            <div id="analytics-no-os" class="p-6 text-center text-slate-400 hidden">
+              No OS data yet.
+            </div>
+          </div>
+        </div>
+
+        <!-- Browser Column -->
+        <div class="flex flex-col">
+          <h4 class="text-sm font-semibold text-slate-700 uppercase tracking-wide mb-4">Top Browsers</h4>
+          <div class="flex-grow bg-slate-50 rounded-xl border border-slate-100 p-0 overflow-hidden overflow-y-auto">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-slate-100 text-slate-500">
+                <tr>
+                  <th class="px-4 py-2 font-semibold">Browser</th>
+                  <th class="px-4 py-2 font-semibold text-right">Scans</th>
+                </tr>
+              </thead>
+              <tbody id="analytics-browser-tbody" class="divide-y divide-slate-100">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+            <div id="analytics-no-browser" class="p-6 text-center text-slate-400 hidden">
+              No Browser data yet.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

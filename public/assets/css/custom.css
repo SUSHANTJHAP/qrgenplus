@@ -56,6 +56,12 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--qr-navy-light); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--qr-indigo); }
 
+/* Custom Light Scrollbar for Tables */
+.table-scrollbar::-webkit-scrollbar { height: 10px; }
+.table-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+.table-scrollbar::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+.table-scrollbar::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
 /* ----- Selection Color ----- */
 ::selection {
   background: var(--qr-indigo);

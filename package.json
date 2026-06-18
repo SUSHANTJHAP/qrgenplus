@@ -1,0 +1,39 @@
+{
+  "name": "qr_gen_plus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SUSHANTJHAP/qrgenplus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/SUSHANTJHAP/qrgenplus/issues"
+  },
+  "homepage": "https://github.com/SUSHANTJHAP/qrgenplus#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "geoip-lite": "^2.0.2",
+    "google-auth-library": "^10.7.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.2.0",
+    "pg": "^8.21.0",
+    "razorpay": "^2.9.6",
+    "sqlite3": "^6.0.1",
+    "stripe": "^22.2.1",
+    "ua-parser-js": "^2.0.10",
+    "uuid": "^14.0.0"
+  }
+}

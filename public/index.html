@@ -270,10 +270,12 @@
       </a>
 
       <div class="hidden md:flex items-center gap-1">
+        <a href="dashboard.html" class="qr-nav-link text-red-500 font-bold" style="color: #ef4444;">Dashboard</a>
         <a href="guides/" class="qr-nav-link">📚 Guides</a>
+        <a href="pricing.html" class="qr-nav-link">Pricing</a>
         <a href="about.html" class="qr-nav-link">About</a>
-        <a href="contact.html" class="qr-nav-link">Contact</a>
-        <a href="privacy-policy.html" class="qr-nav-link">Privacy</a>
+        <a href="login.html" class="qr-nav-link font-semibold text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-1.5 rounded-lg ml-2">Log in</a>
+        <a href="register.html" class="qr-nav-link font-semibold text-gray-900 bg-white hover:bg-gray-100 px-4 py-1.5 rounded-lg">Sign up</a>
       </div>
 
       <button id="nav-hamburger" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav-menu">
@@ -284,10 +286,11 @@
     </div>
 
     <div id="mobile-nav-menu" class="md:hidden border-t border-white/5 px-4 py-3 flex-col gap-1" style="display:none;" role="menu">
+      <a href="dashboard.html" class="qr-nav-link block py-2 text-red-500 font-bold" role="menuitem">Dashboard</a>
       <a href="guides/" class="qr-nav-link block py-2" role="menuitem">📚 Guides</a>
-      <a href="about.html" class="qr-nav-link block py-2" role="menuitem">About</a>
-      <a href="contact.html" class="qr-nav-link block py-2" role="menuitem">Contact</a>
-      <a href="privacy-policy.html" class="qr-nav-link block py-2" role="menuitem">Privacy</a>
+      <a href="pricing.html" class="qr-nav-link block py-2" role="menuitem">Pricing</a>
+      <a href="login.html" class="qr-nav-link block py-2 font-bold text-indigo-400" role="menuitem">Log in</a>
+      <a href="register.html" class="qr-nav-link block py-2 font-bold" role="menuitem">Sign up</a>
     </div>
   </nav>
 
@@ -361,6 +364,10 @@
             <span class="tab-icon" aria-hidden="true">📦</span>
             <span class="tab-label">Batch</span>
           </button>
+          <button class="qr-tab-btn" data-tab="pdf" role="tab" aria-selected="false" aria-controls="panel-pdf" id="tab-pdf">
+            <span class="tab-icon" aria-hidden="true">📄</span>
+            <span class="tab-label">PDF Menu</span>
+          </button>
         </div>
 
         <!-- ------------------------------------------------
@@ -380,6 +387,18 @@
               aria-describedby="hint-link"
             />
             <p id="hint-link" class="input-hint muted" aria-live="polite"></p>
+          </div>
+
+                    <!-- DYNAMIC TOGGLE (PREMIUM) -->
+          <div class="flex items-center justify-between p-4 mb-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <div>
+              <h4 class="font-bold text-indigo-900 text-sm">Make Dynamic (Trackable)</h4>
+              <p class="text-xs text-indigo-600 mt-0.5">Track scans & edit later <span class="font-bold text-xs bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded ml-1">PRO</span></p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer toggle-dynamic">
+              <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
           </div>
           <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
@@ -404,6 +423,17 @@
               aria-describedby="hint-text"
             ></textarea>
             <p id="hint-text" class="input-hint muted" aria-live="polite">Max 2,500 characters. <strong class="text-indigo-400">Pro Tip:</strong> Press Shift + Enter for a new line.</p>
+          </div>
+                    <!-- DYNAMIC TOGGLE (PREMIUM) -->
+          <div class="flex items-center justify-between p-4 mb-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <div>
+              <h4 class="font-bold text-indigo-900 text-sm">Make Dynamic (Trackable)</h4>
+              <p class="text-xs text-indigo-600 mt-0.5">Track scans & edit later <span class="font-bold text-xs bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded ml-1">PRO</span></p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer toggle-dynamic">
+              <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
           </div>
           <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
@@ -451,6 +481,17 @@
               maxlength="128"
               aria-describedby="wifi-privacy-note"
             />
+          </div>
+          <!-- DYNAMIC TOGGLE (PREMIUM) -->
+          <div class="flex items-center justify-between p-4 mb-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <div>
+              <h4 class="font-bold text-indigo-900 text-sm">Make Dynamic (Trackable)</h4>
+              <p class="text-xs text-indigo-600 mt-0.5">Track scans & edit later <span class="font-bold text-xs bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded ml-1">PRO</span></p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer toggle-dynamic">
+              <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
           </div>
           <div id="wifi-privacy-note" class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
@@ -502,6 +543,17 @@
               maxlength="2048"
             />
           </div>
+                    <!-- DYNAMIC TOGGLE (PREMIUM) -->
+          <div class="flex items-center justify-between p-4 mb-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <div>
+              <h4 class="font-bold text-indigo-900 text-sm">Make Dynamic (Trackable)</h4>
+              <p class="text-xs text-indigo-600 mt-0.5">Track scans & edit later <span class="font-bold text-xs bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded ml-1">PRO</span></p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer toggle-dynamic">
+              <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
           <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
@@ -537,6 +589,17 @@
               <input type="text" id="input-vcard-org" class="qr-input" placeholder="Acme Corp" />
             </div>
           </div>
+                    <!-- DYNAMIC TOGGLE (PREMIUM) -->
+          <div class="flex items-center justify-between p-4 mb-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <div>
+              <h4 class="font-bold text-indigo-900 text-sm">Make Dynamic (Trackable)</h4>
+              <p class="text-xs text-indigo-600 mt-0.5">Track scans & edit later <span class="font-bold text-xs bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded ml-1">PRO</span></p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer toggle-dynamic">
+              <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
           <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
@@ -564,6 +627,17 @@
             <p class="input-hint muted mt-1.5 text-xs"><strong class="text-indigo-400">Pro Tip:</strong> Press Shift + Enter for a new line.</p>
           </div>
 
+                    <!-- DYNAMIC TOGGLE (PREMIUM) -->
+          <div class="flex items-center justify-between p-4 mb-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <div>
+              <h4 class="font-bold text-indigo-900 text-sm">Make Dynamic (Trackable)</h4>
+              <p class="text-xs text-indigo-600 mt-0.5">Track scans & edit later <span class="font-bold text-xs bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded ml-1">PRO</span></p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer toggle-dynamic">
+              <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
           <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
@@ -591,6 +665,17 @@
             <p class="input-hint muted mt-1.5 text-xs"><strong class="text-indigo-400">Pro Tip:</strong> Press Shift + Enter for a new line.</p>
           </div>
 
+                    <!-- DYNAMIC TOGGLE (PREMIUM) -->
+          <div class="flex items-center justify-between p-4 mb-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <div>
+              <h4 class="font-bold text-indigo-900 text-sm">Make Dynamic (Trackable)</h4>
+              <p class="text-xs text-indigo-600 mt-0.5">Track scans & edit later <span class="font-bold text-xs bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded ml-1">PRO</span></p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer toggle-dynamic">
+              <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
           <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
@@ -609,6 +694,17 @@
             <label for="input-batch" class="qr-label">Batch Input (One per line)</label>
             <textarea id="input-batch" class="qr-input qr-textarea h-40" placeholder="https://example.com&#10;https://google.com&#10;Hello World"></textarea>
           </div>
+                    <!-- DYNAMIC TOGGLE (PREMIUM) -->
+          <div class="flex items-center justify-between p-4 mb-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <div>
+              <h4 class="font-bold text-indigo-900 text-sm">Make Dynamic (Trackable)</h4>
+              <p class="text-xs text-indigo-600 mt-0.5">Track scans & edit later <span class="font-bold text-xs bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded ml-1">PRO</span></p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer toggle-dynamic">
+              <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
           <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
@@ -617,6 +713,33 @@
             ⚡ Generate Batch QR Codes
           </button>
         </div>
+
+        <!-- ------------------------------------------------
+             PANEL: PDF Menu (Premium)
+             ------------------------------------------------ -->
+        <div class="qr-tab-panel" data-panel="pdf" id="panel-pdf" role="tabpanel" aria-labelledby="tab-pdf">
+          <p class="text-sm text-slate-500 mb-4">Upload a PDF file (e.g., a Restaurant Menu). We will host it securely and generate a dynamic QR code for it.</p>
+          <div class="form-group mb-4">
+            <label for="input-pdf" class="qr-label">Select PDF File <span class="text-xs text-indigo-500 ml-1 font-bold">(Premium Feature)</span></label>
+            <input type="file" id="input-pdf" class="qr-input" accept="application/pdf" />
+          </div>
+          <!-- DYNAMIC TOGGLE (PREMIUM) -->
+          <div class="flex items-center justify-between p-4 mb-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <div>
+              <h4 class="font-bold text-indigo-900 text-sm">Make Dynamic (Trackable)</h4>
+              <p class="text-xs text-indigo-600 mt-0.5">Track scans & edit later <span class="font-bold text-xs bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded ml-1">PRO</span></p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer toggle-dynamic" checked disabled>
+              <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
+          <button id="btn-generate-pdf" class="qr-btn-generate" type="button">
+            ⚡ Upload & Generate QR
+          </button>
+        </div>
+
+        
 
         <!-- ================================================
              QR OUTPUT ROW
@@ -684,10 +807,29 @@
                   Edit
                 </button>
               </div>
+
+              <div class="flex w-full mt-2 relative group">
+                <a href="/dashboard.html" id="btn-premium-upsell" class="bg-red-500 hover:bg-red-600 text-white rounded-lg flex-1 px-1 py-2.5 text-sm font-bold flex items-center justify-center transition-all shadow" aria-label="Subscribe Now">
+                  Subscribe ($6/mo)
+                </a>
+                
+                <!-- Hover Tooltip -->
+                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-60 bg-navy text-white text-xs rounded-xl p-3 shadow-2xl opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 z-50 pointer-events-none">
+                  <div class="font-bold text-sm mb-1.5 text-teal">QRGenPlus Premium</div>
+                  <ul class="space-y-1.5 text-slate-300">
+                    <li class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Editable Dynamic Links</li>
+                    <li class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Advanced Scan Analytics</li>
+                    <li class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> URL Error Protection</li>
+                    <li class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Unlimited Scans</li>
+                  </ul>
+                  <!-- Triangle arrow -->
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-navy"></div>
+                </div>
+              </div>
             </div>
 
             <p class="text-xs text-slate-500 text-center leading-relaxed" role="note">
-              🔒 All QR data is processed locally in your browser.<br/>Nothing is ever sent to a server.
+              ⚡ Free tier features process 100% locally in your browser with zero data collection. Upgrade to Pro ($6/mo) to unlock dynamic server-side tracking, analytics, and smart landing pages securely hosted in our cloud database.
             </p>
           </div>
         </div>
@@ -936,6 +1078,7 @@
           <a href="contact.html">Contact</a>
           <a href="privacy-policy.html">Privacy Policy</a>
           <a href="terms-of-service.html">Terms of Service</a>
+          <a href="refund-policy.html">Refund Policy</a>
         </nav>
       </div>
       <hr class="divider mt-6" role="separator" />
@@ -961,6 +1104,23 @@
       <div class="form-group mb-4">
         <label for="color-bg" class="qr-label">Background Color</label>
         <input type="color" id="color-bg" class="qr-input h-10 p-1 w-full" value="#FFFFFF" />
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="input-qr-logo" class="qr-label">Center Logo URL (Optional)</label>
+        <input type="url" id="input-qr-logo" class="qr-input" placeholder="https://example.com/logo.png" />
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="input-qr-shape" class="qr-label">Dot Shape</label>
+        <select id="input-qr-shape" class="qr-input qr-select">
+          <option value="square">Square</option>
+          <option value="dots">Dots</option>
+          <option value="rounded">Rounded</option>
+          <option value="extra-rounded">Extra Rounded</option>
+          <option value="classy">Classy</option>
+          <option value="classy-rounded">Classy Rounded</option>
+        </select>
       </div>
 
       <div class="form-group mb-6">

@@ -60,7 +60,7 @@ let inputLink, inputText;
 let inputWifiSsid, inputWifiPass, inputWifiSec;
 let inputImage;
 let hintLink;
-let modalEdit, btnCloseModal, btnApplyEdit, btnDefaultEdit, colorFg, colorBg, inputQrLabel;
+let modalEdit, btnCloseModal, btnApplyEdit, btnDefaultEdit, colorFg, colorBg, inputQrLabel, inputQrLogo, inputQrShape;
 let inputVcardFname, inputVcardLname, inputVcardPhone, inputVcardEmail, inputVcardOrg;
 let inputEmailTo, inputEmailName, inputEmailBody;
 let inputSmsPhone, inputSmsName, inputSmsBody;
@@ -107,6 +107,8 @@ function resolveDOM() {
   colorFg           = document.getElementById('color-fg');
   colorBg           = document.getElementById('color-bg');
   inputQrLabel      = document.getElementById('input-qr-label');
+  inputQrLogo       = document.getElementById('input-qr-logo');
+  inputQrShape      = document.getElementById('input-qr-shape');
 
   inputVcardFname   = document.getElementById('input-vcard-fname');
   inputVcardLname   = document.getElementById('input-vcard-lname');
@@ -136,13 +138,54 @@ function initQRCode() {
  * Generate a QR code from a data string and render it into the canvas wrapper.
  * @param {string} data — The string to encode
  */
-function generateQR(data) {
+async function generateQR(data) {
   if (!data || !data.trim()) {
     showToast('Please enter some content first.', 'error');
     return;
   }
 
-  const trimmed = data.trim();
+  let trimmed = data.trim();
+  
+  // Handle Dynamic Toggle (Premium Feature)
+  const activePanel = document.querySelector(`.qr-tab-panel[data-panel="${activeTab}"]`);
+  const dynamicToggle = activePanel ? activePanel.querySelector('.toggle-dynamic') : null;
+  if (dynamicToggle && dynamicToggle.checked) {
+    try {
+      const btn = document.activeElement;
+      const oldText = btn.innerText;
+      if (btn.tagName === 'BUTTON') btn.innerText = 'Creating...';
+      
+      const res = await fetch('/api/links', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          target_url: trimmed, 
+          original_title: 'Dynamic QR (' + activeTab + ')' 
+        })
+      });
+      
+      if (btn.tagName === 'BUTTON') btn.innerText = oldText;
+      
+      if (res.status === 401 || res.status === 403) {
+        dynamicToggle.checked = false;
+        showToast('Active subscription required for Dynamic QRs. Redirecting...', 'error');
+        setTimeout(() => window.location.href = 'dashboard.html', 1500);
+        return;
+      }
+      
+      const json = await res.json();
+      if (json.success && json.link) {
+        trimmed = json.link.short_url;
+      } else {
+        showToast('Error creating dynamic link', 'error');
+        return;
+      }
+    } catch (e) {
+      showToast('Network error while creating dynamic link', 'error');
+      return;
+    }
+  }
+
   currentData = trimmed;
 
   // Remove existing canvas/svg child (QRCodeStyling appends, not replaces)
@@ -287,6 +330,11 @@ function bindInputs() {
   if (btnImage) btnImage.addEventListener('click', handleImageGenerate);
   bindEnter([inputImage], handleImageGenerate);
 
+  // ----- PDF Tab -----
+  window.inputPdf = document.getElementById('input-pdf');
+  const btnPdf = document.getElementById('btn-generate-pdf');
+  if (btnPdf) btnPdf.addEventListener('click', handlePdfGenerate);
+
   // ----- VCard Tab -----
   const btnVcard = document.getElementById('btn-generate-vcard');
   if (btnVcard) btnVcard.addEventListener('click', handleVcardGenerate);
@@ -313,7 +361,7 @@ function bindInputs() {
 /* ============================================================
    GENERATE HANDLERS (per tab)
    ============================================================ */
-function handleLinkGenerate() {
+async function handleLinkGenerate() {
   const val = inputLink ? inputLink.value.trim() : '';
   if (!val) { showHint(hintLink, 'Please enter a URL.', 'error'); return; }
 
@@ -326,7 +374,38 @@ function handleLinkGenerate() {
 
   inputLink.classList.remove('error');
   showHint(hintLink, 'Valid URL ✓', 'success');
-  generateQR(val);
+
+  const isDynamic = document.getElementById('toggle-dynamic') && document.getElementById('toggle-dynamic').checked;
+  
+  if (isDynamic) {
+    try {
+      const btnLink = document.getElementById('btn-generate-link');
+      const originalText = btnLink.innerText;
+      btnLink.innerText = 'Creating...';
+      
+      const res = await fetch('/api/links', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target_url: val, original_title: val.substring(0, 50) })
+      });
+      
+      btnLink.innerText = originalText;
+      
+      if (!res.ok) {
+        const d = await res.json();
+        showToast(d.error || 'Failed to create dynamic link', 'error');
+        return;
+      }
+      
+      const data = await res.json();
+      generateQR(data.link.short_url);
+    } catch (err) {
+      console.error(err);
+      showToast('Network error while creating dynamic link', 'error');
+    }
+  } else {
+    generateQR(val);
+  }
 }
 
 function handleTextGenerate() {
@@ -353,6 +432,52 @@ function handleImageGenerate() {
   if (!val) { showToast('Please paste your file share link first.', 'error'); return; }
   if (!isValidURL(val)) { showToast('Please enter a valid URL.', 'error'); return; }
   generateQR(val);
+}
+
+async function handlePdfGenerate() {
+  if (!inputPdf || !inputPdf.files || inputPdf.files.length === 0) {
+    showToast('Please select a PDF file first.', 'error');
+    return;
+  }
+  
+  const file = inputPdf.files[0];
+  if (file.type !== 'application/pdf') {
+    showToast('Only PDF files are supported.', 'error');
+    return;
+  }
+
+  const btnPdf = document.getElementById('btn-generate-pdf');
+  const defaultText = btnPdf.innerText;
+  btnPdf.innerText = 'Uploading...';
+  btnPdf.disabled = true;
+
+  try {
+    const formData = new FormData();
+    formData.append('pdf', file);
+
+    const res = await fetch('/api/upload-pdf', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to upload PDF');
+    }
+
+    showToast('PDF Uploaded! Generating QR...', 'success');
+    generateQR(data.link.short_url);
+  } catch (err) {
+    showToast(err.message, 'error');
+    if (err.message.toLowerCase().includes('subscription')) {
+      if(window.location.pathname !== '/dashboard.html') {
+         window.location.href = '/dashboard.html';
+      }
+    }
+  } finally {
+    btnPdf.innerText = defaultText;
+    btnPdf.disabled = false;
+  }
 }
 
 function handleVcardGenerate() {
@@ -437,11 +562,14 @@ async function handleBatchGenerate() {
       // Apply current appearance options
       const fg = colorFg ? colorFg.value : '#0F172A';
       const bg = colorBg ? colorBg.value : '#FFFFFF';
+      const shape = inputQrShape ? inputQrShape.value : 'square';
+      const logo = inputQrLogo && inputQrLogo.value ? inputQrLogo.value : undefined;
       qr.update({
-        dotsOptions: { color: fg, type: 'square' },
-        cornersSquareOptions: { color: fg, type: 'square' },
-        cornersDotOptions: { color: fg, type: 'square' },
-        backgroundOptions: { color: bg }
+        dotsOptions: { color: fg, type: shape },
+        cornersSquareOptions: { color: fg, type: shape.includes('rounded') ? 'extra-rounded' : 'square' },
+        cornersDotOptions: { color: fg, type: shape.includes('rounded') ? 'dots' : 'square' },
+        backgroundOptions: { color: bg },
+        image: logo
       });
 
       const blob = await qr.getRawData(ext);
@@ -661,6 +789,8 @@ function bindEditModal() {
       
       const fg = colorFg ? colorFg.value : '#0F172A';
       const bg = colorBg ? colorBg.value : '#FFFFFF';
+      const shape = inputQrShape ? inputQrShape.value : 'square';
+      const logo = inputQrLogo && inputQrLogo.value.trim() ? inputQrLogo.value.trim() : undefined;
       const labelText = inputQrLabel ? inputQrLabel.value.trim() : '';
       
       const textNode = document.getElementById('qr-text-label');
@@ -670,10 +800,11 @@ function bindEditModal() {
       }
       
       qrCode.update({
-        dotsOptions: { color: fg, type: 'square' },
-        cornersSquareOptions: { color: fg, type: 'square' },
-        cornersDotOptions: { color: fg, type: 'square' },
-        backgroundOptions: { color: bg }
+        dotsOptions: { color: fg, type: shape },
+        cornersSquareOptions: { color: fg, type: shape.includes('rounded') ? 'extra-rounded' : 'square' },
+        cornersDotOptions: { color: fg, type: shape.includes('rounded') ? 'dots' : 'square' },
+        backgroundOptions: { color: bg },
+        image: logo
       });
       
       // Syncing preview after rendering
@@ -687,6 +818,8 @@ function bindEditModal() {
     btnDefaultEdit.addEventListener('click', () => {
       if (colorFg) colorFg.value = '#0F172A';
       if (colorBg) colorBg.value = '#FFFFFF';
+      if (inputQrShape) inputQrShape.value = 'square';
+      if (inputQrLogo) inputQrLogo.value = '';
       if (btnApplyEdit) btnApplyEdit.click();
     });
   }
@@ -760,6 +893,19 @@ function initMobileNav() {
       mobileMenu.classList.remove('open');
       mobileMenu.style.display = 'none';
       hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Handle Dynamic Toggle Privacy Banner Visibility
+  document.querySelectorAll('.toggle-dynamic').forEach(toggle => {
+    toggle.addEventListener('change', (e) => {
+      const toggleContainer = e.target.closest('.flex.items-center.justify-between.p-4.mb-4');
+      if (toggleContainer) {
+        const privacyBanner = toggleContainer.nextElementSibling;
+        if (privacyBanner && privacyBanner.getAttribute('role') === 'note') {
+          privacyBanner.style.display = e.target.checked ? 'none' : 'flex';
+        }
+      }
     });
   });
 }
