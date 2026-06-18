@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     Paddle.Checkout.open({
       items: [
         {
-          priceId: isYearly ? 'pri_yearly_placeholder' : 'pri_01kvaqaen51n5nws6tpdcd1f4z',
+          priceId: isYearly ? 'pri_01kvc33wehnhamrmw663xmw2jv' : 'pri_01kvaqaen51n5nws6tpdcd1f4z',
           quantity: 1
         }
       ],
