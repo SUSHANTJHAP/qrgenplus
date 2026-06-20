@@ -85,7 +85,10 @@ const upload = multer({
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['https://qrgenplus.com', 'https://www.qrgenplus.com', 'http://localhost:3000'],
+  credentials: true
+}));
 // Webhooks require raw body for signature verification
 app.use('/webhook/stripe', express.raw({ type: 'application/json' }));
 app.use('/webhooks/razorpay', express.raw({ type: 'application/json' }));
@@ -173,7 +176,7 @@ app.post('/api/register', async (req, res) => {
     
     const result = await db.query("INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id", [username, email, hash]);
     const token = jwt.sign({ userId: result.rows[0].id }, JWT_SECRET, { expiresIn: '7d' });
-    res.cookie('auth_token', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
+    res.cookie('auth_token', token, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 7 * 24 * 60 * 60 * 1000 });
     res.json({ success: true, message: 'Registered successfully' });
   } catch (err) {
     console.error(err);
@@ -194,7 +197,7 @@ app.post('/api/login', async (req, res) => {
     if (!isValid) return res.status(401).json({ error: 'Invalid credentials' });
     
     const token = jwt.sign({ userId: row.id }, JWT_SECRET, { expiresIn: '7d' });
-    res.cookie('auth_token', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
+    res.cookie('auth_token', token, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 7 * 24 * 60 * 60 * 1000 });
     res.json({ success: true, message: 'Logged in successfully', user: { id: row.id, email: row.email, username: row.username, subscribed: row.subscribed } });
   } catch (err) {
     console.error(err);
@@ -203,7 +206,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/logout', (req, res) => {
-  res.clearCookie('auth_token');
+  res.clearCookie('auth_token', { sameSite: 'none', secure: true });
   res.json({ success: true });
 });
 
@@ -232,7 +235,7 @@ app.post('/api/auth/google', async (req, res) => {
     }
 
     const token = jwt.sign({ userId: row.id }, JWT_SECRET, { expiresIn: '7d' });
-    res.cookie('auth_token', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
+    res.cookie('auth_token', token, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 7 * 24 * 60 * 60 * 1000 });
     res.json({ success: true, message: 'Logged in successfully', user: { id: row.id, email: row.email, username: row.username, subscribed: row.subscribed } });
   } catch (err) {
     console.error('Google Auth Error:', err);
@@ -430,7 +433,7 @@ app.post('/r/verify/:short_id', async (req, res) => {
         </body></html>
       `);
     }
-    res.cookie(`auth_${short_id}`, 'true', { maxAge: 900000, httpOnly: true }); // 15 mins
+    res.cookie(`auth_${short_id}`, 'true', { maxAge: 900000, httpOnly: true, secure: true, sameSite: 'none' }); // 15 mins
     res.redirect(`/r/${short_id}`);
   } catch(err) {
     res.redirect('/404.html');
