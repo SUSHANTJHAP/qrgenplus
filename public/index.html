@@ -245,6 +245,7 @@
   <style>
     .premium-only { display: none !important; }
     body.is-premium .premium-only { display: flex !important; }
+    body.is-premium .hide-on-premium { display: none !important; }
   </style>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
@@ -419,7 +420,7 @@
               <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
-          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start premium-only" role="note">
+          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start hide-on-premium" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
           </div>
@@ -454,7 +455,7 @@
               <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
-          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start premium-only" role="note">
+          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start hide-on-premium" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
           </div>
@@ -512,7 +513,7 @@
               <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
-          <div id="wifi-privacy-note" class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start premium-only" role="note">
+          <div id="wifi-privacy-note" class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start hide-on-premium" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your WiFi credentials are processed <strong class="text-slate-300">entirely within your browser</strong> and are never transmitted to any server or stored anywhere.</p>
           </div>
@@ -573,7 +574,7 @@
               <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
-          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start premium-only" role="note">
+          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start hide-on-premium" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
           </div>
@@ -619,7 +620,7 @@
               <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
-          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start premium-only" role="note">
+          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start hide-on-premium" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
           </div>
@@ -657,7 +658,7 @@
               <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
-          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start premium-only" role="note">
+          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start hide-on-premium" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
           </div>
@@ -695,7 +696,7 @@
               <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
-          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start premium-only" role="note">
+          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start hide-on-premium" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
           </div>
@@ -724,7 +725,7 @@
               <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
-          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start premium-only" role="note">
+          <div class="rounded-xl bg-indigo-950/40 border border-indigo-500/15 p-3 mb-4 flex gap-2.5 items-start hide-on-premium" role="note">
             <span class="text-lg" aria-hidden="true">🔒</span>
             <p class="text-xs text-slate-400 leading-relaxed">Your data is processed <strong class="text-slate-300">entirely within your browser</strong> and is never transmitted to any server or stored anywhere.</p>
           </div>
