@@ -53,7 +53,7 @@ let activeTab    = 'link'; // Currently active tab id
 /* ============================================================
    DOM REFERENCES (resolved at DOMContentLoaded)
    ============================================================ */
-let canvasWrapper, canvasPlaceholder, scannerImg;
+let canvasWrapper, canvasPlaceholder, scannerImgs = [];
 let downloadBtn, copyBtn, editBtn, exportFormat;
 let tabs, panels;
 let inputLink, inputText;
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function resolveDOM() {
   canvasWrapper     = document.getElementById('qr-canvas-wrapper');
   canvasPlaceholder = document.getElementById('qr-placeholder');
-  scannerImg        = document.getElementById('scanner-canvas');
+  scannerImgs       = document.querySelectorAll('.scanner-preview-canvas');
   downloadBtn       = document.getElementById('btn-download');
   copyBtn           = document.getElementById('btn-copy');
   editBtn           = document.getElementById('btn-edit');
@@ -257,8 +257,9 @@ function getWrapperCanvas() {
  */
 function syncScannerPreview() {
   const canvas = getWrapperCanvas();
-  if (!canvas || !scannerImg) return;
-  scannerImg.src = canvas.toDataURL('image/png');
+  if (!canvas) return;
+  const dataUrl = canvas.toDataURL('image/png');
+  scannerImgs.forEach(img => img.src = dataUrl);
 }
 
 /* ============================================================
@@ -734,7 +735,7 @@ function clearOutput() {
   if (existing) existing.remove();
 
   if (canvasPlaceholder) canvasPlaceholder.style.display = '';
-  if (scannerImg) scannerImg.src = '';
+  scannerImgs.forEach(img => img.src = '');
 
   updateDownloadBtn(false);
 

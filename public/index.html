@@ -350,6 +350,20 @@
     <!-- Inline Mobile Scanner UI -->
     <div class="flex md:hidden flex-col mb-6 mt-2 gap-3 w-full max-w-sm mx-auto">
       
+      <!-- Generated QR Scanner Mockup (Mobile) -->
+      <div class="flex flex-col items-center mb-2">
+        <p class="qr-label text-center mb-2.5 text-xs font-bold text-slate-500 uppercase tracking-widest">Scanner Preview</p>
+        <div class="flex justify-center">
+          <div class="scanner-preview" aria-label="Simulated phone scanner preview" role="img">
+            <img class="scanner-preview-canvas" src="" alt="" width="140" height="140" aria-hidden="true" />
+            <div class="scanner-corners" aria-hidden="true"></div>
+            <div class="scanner-corner-tr" aria-hidden="true"></div>
+            <div class="scanner-corner-bl" aria-hidden="true"></div>
+            <div class="scanner-laser" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+
       <!-- Box that shows scanning -->
       <div id="qr-reader-container" class="hidden w-full bg-slate-900 rounded-xl overflow-hidden shadow-inner relative">
         <div id="qr-reader" class="w-full"></div>
@@ -820,11 +834,11 @@
           <!-- Scanner Preview + Actions -->
           <div class="flex flex-col gap-4 flex-1 w-full sm:max-w-xs">
 
-            <div>
+            <div class="hidden md:block">
               <p class="qr-label text-center mb-2.5">Scanner Preview</p>
               <div class="flex justify-center">
                 <div class="scanner-preview" aria-label="Simulated phone scanner preview" role="img">
-                  <img id="scanner-canvas" class="scanner-preview-canvas" src="" alt="" width="140" height="140" aria-hidden="true" />
+                  <img class="scanner-preview-canvas" src="" alt="" width="140" height="140" aria-hidden="true" />
                   <div class="scanner-corners" aria-hidden="true"></div>
                   <div class="scanner-corner-tr" aria-hidden="true"></div>
                   <div class="scanner-corner-bl" aria-hidden="true"></div>
