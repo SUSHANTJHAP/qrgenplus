@@ -65,7 +65,7 @@ let inputVcardFname, inputVcardLname, inputVcardPhone, inputVcardEmail, inputVca
 let inputEmailTo, inputEmailName, inputEmailBody;
 let inputSmsPhone, inputSmsName, inputSmsBody;
 let inputBatch;
-let btnScanQr, scanModal, btnCloseScan, scanResultContainer, scanResultText, scanResultLink, btnCopyScan, btnScanAgain, html5QrcodeScanner;
+let btnScanQr, qrReaderContainer, btnStopScan, btnUploadQr, qrUploadInput, scanResultContainer, scanResultText, scanResultLink, btnCopyScan, html5QrCode;
 
 /* ============================================================
    INITIALISE
@@ -127,13 +127,14 @@ function resolveDOM() {
   inputSmsBody      = document.getElementById('input-sms-body');
   inputBatch        = document.getElementById('input-batch');
   btnScanQr         = document.getElementById('btn-scan-qr');
-  scanModal         = document.getElementById('scan-modal');
-  btnCloseScan      = document.getElementById('btn-close-scan');
+  qrReaderContainer = document.getElementById('qr-reader-container');
+  btnStopScan       = document.getElementById('btn-stop-scan');
+  btnUploadQr       = document.getElementById('btn-upload-qr');
+  qrUploadInput     = document.getElementById('qr-upload-input');
   scanResultContainer = document.getElementById('scan-result-container');
   scanResultText    = document.getElementById('scan-result-text');
   scanResultLink    = document.getElementById('scan-result-link');
   btnCopyScan       = document.getElementById('btn-copy-scan');
-  btnScanAgain      = document.getElementById('btn-scan-again');
 }
 
 /* ============================================================
@@ -936,23 +937,37 @@ function bindScanner() {
   if (!btnScanQr) return;
   
   btnScanQr.addEventListener('click', () => {
-    if (scanModal) {
-      scanModal.classList.remove('hidden');
-    }
-    initScanner();
+    startCamera();
   });
 
-  if (btnCloseScan) {
-    btnCloseScan.addEventListener('click', () => {
-      closeScanner();
+  if (btnStopScan) {
+    btnStopScan.addEventListener('click', () => {
+      stopCamera();
     });
   }
 
-  if (btnScanAgain) {
-    btnScanAgain.addEventListener('click', () => {
-      scanResultContainer.classList.add('hidden');
-      document.getElementById('qr-reader').style.display = 'block';
-      initScanner();
+  if (btnUploadQr && qrUploadInput) {
+    btnUploadQr.addEventListener('click', () => {
+      qrUploadInput.click();
+    });
+
+    qrUploadInput.addEventListener('change', async (e) => {
+      if (e.target.files.length === 0) return;
+      const file = e.target.files[0];
+      
+      if (!html5QrCode) {
+        html5QrCode = new Html5Qrcode("qr-reader");
+      }
+
+      try {
+        const decodedText = await html5QrCode.scanFile(file, true);
+        onScanSuccess(decodedText);
+      } catch (err) {
+        showToast('Could not find a QR code in this image', 'error');
+      }
+      
+      // Reset input
+      e.target.value = '';
     });
   }
 
@@ -972,40 +987,50 @@ function bindScanner() {
   }
 }
 
-function initScanner() {
-  if (html5QrcodeScanner) {
-    html5QrcodeScanner.clear().catch(e => {});
+function startCamera() {
+  scanResultContainer.classList.add('hidden');
+  qrReaderContainer.classList.remove('hidden');
+  btnScanQr.classList.add('hidden');
+  btnUploadQr.classList.add('hidden');
+
+  if (!html5QrCode) {
+    html5QrCode = new Html5Qrcode("qr-reader");
   }
-  
-  html5QrcodeScanner = new Html5QrcodeScanner(
-    "qr-reader",
-    { fps: 10, qrbox: {width: 250, height: 250} },
-    false
-  );
-  
-  html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+  html5QrCode.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: { width: 250, height: 250 } },
+    onScanSuccess,
+    onScanFailure
+  ).catch(err => {
+    console.error("Camera start failed", err);
+    showToast('Failed to access camera', 'error');
+    stopCamera();
+  });
 }
 
-function closeScanner() {
-  if (scanModal) scanModal.classList.add('hidden');
-  if (html5QrcodeScanner) {
-    html5QrcodeScanner.clear().catch(error => {
-      console.error("Failed to clear scanner", error);
+function stopCamera() {
+  if (html5QrCode && html5QrCode.isScanning) {
+    html5QrCode.stop().then(() => {
+      resetScannerUI();
+    }).catch(err => {
+      console.error("Failed to stop scanner", err);
+      resetScannerUI();
     });
+  } else {
+    resetScannerUI();
   }
-  if (scanResultContainer) {
-    scanResultContainer.classList.add('hidden');
-  }
-  const reader = document.getElementById('qr-reader');
-  if(reader) reader.style.display = 'block';
 }
 
-function onScanSuccess(decodedText, decodedResult) {
-  if (html5QrcodeScanner) {
-    html5QrcodeScanner.clear();
-  }
+function resetScannerUI() {
+  qrReaderContainer.classList.add('hidden');
+  btnScanQr.classList.remove('hidden');
+  btnUploadQr.classList.remove('hidden');
+}
+
+function onScanSuccess(decodedText) {
+  stopCamera();
   
-  document.getElementById('qr-reader').style.display = 'none';
   scanResultContainer.classList.remove('hidden');
   scanResultText.innerText = decodedText;
   
