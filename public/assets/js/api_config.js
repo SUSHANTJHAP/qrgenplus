@@ -1,4 +1,4 @@
-window.API_BASE = 'https://api.qrgenplus.com';
+window.API_BASE = 'https://www.qrgenplus.com';
 const originalFetch = window.fetch;
 window.fetch = async function() {
   let [resource, config] = arguments;
