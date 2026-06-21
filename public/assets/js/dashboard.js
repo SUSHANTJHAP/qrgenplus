@@ -17,16 +17,30 @@ document.addEventListener('DOMContentLoaded', async () => {
       window.location.href = '/login.html';
       return;
     }
+    
+    // Protect against generic HTML responses
+    const contentType = res.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      console.error('Invalid API response type:', contentType);
+      window.location.href = '/login.html';
+      return;
+    }
+
     const data = await res.json();
+    if (!data || !data.user) {
+      window.location.href = '/login.html';
+      return;
+    }
+
     user = data.user;
     
-    btnLogout.classList.remove('hidden');
-    loadingState.classList.add('hidden');
+    if (btnLogout) btnLogout.classList.remove('hidden');
+    if (loadingState) loadingState.classList.add('hidden');
     
     if (!user.subscribed) {
-      unsubscribedState.classList.remove('hidden');
+      if (unsubscribedState) unsubscribedState.classList.remove('hidden');
     } else {
-      dashboardState.classList.remove('hidden');
+      if (dashboardState) dashboardState.classList.remove('hidden');
       loadLinks();
     }
 
@@ -48,7 +62,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
   } catch (err) {
-    console.error(err);
+    console.error('Dashboard init error:', err);
+    if (loadingState) {
+      loadingState.innerHTML = '<span class="text-red-500 font-semibold">Error connecting to server. Please try again.</span><br><br><a href="/login.html" class="text-indigo hover:underline mt-4 inline-block">Go to Login</a>';
+    }
   }
 
   // Logout

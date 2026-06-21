@@ -239,6 +239,8 @@
   <!-- QRCode-Styling Library — stable v1.5.0 (client-side, no data leaves browser) -->
   <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+  <!-- HTML5 QR Code Scanner -->
+  <script src="https://unpkg.com/html5-qrcode" defer></script>
   <!-- App Logic -->
   <script src="assets/js/app.js" defer></script>
 
@@ -345,6 +347,41 @@
        MAIN TOOL + SIDEBAR LAYOUT
        ====================================================== -->
   <main id="main-tool" role="main" class="flex-1 max-w-6xl mx-auto w-full px-4 pb-12">
+    <!-- Scan QR Button & Modal (Mobile Only, Placed on Top) -->
+    <div class="flex md:hidden justify-center mb-6 mt-2">
+      <button id="btn-scan-qr" class="qr-btn-download w-full px-1 py-3 text-base bg-indigo hover:bg-indigo-dark text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2" type="button">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        Scan QR Code
+      </button>
+    </div>
+
+    <!-- Scan Modal Container -->
+    <div id="scan-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
+        <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+          <h3 class="font-bold text-navy flex items-center gap-2">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Scan QR
+          </h3>
+          <button id="btn-close-scan" class="text-slate-400 hover:text-slate-600 transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+        <div class="p-4">
+          <div id="qr-reader" class="w-full"></div>
+          <div id="scan-result-container" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+            <p class="text-sm font-bold text-emerald-800 mb-1">Scanned Result:</p>
+            <div id="scan-result-text" class="text-emerald-700 break-all text-sm mb-3 font-mono bg-white p-2 border border-emerald-100 rounded"></div>
+            <div class="flex gap-2">
+              <a id="scan-result-link" href="#" target="_blank" class="hidden flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-center py-2 rounded-lg text-sm font-bold shadow transition">Open Link</a>
+              <button id="btn-copy-scan" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 py-2 rounded-lg text-sm font-bold shadow-sm transition">Copy Text</button>
+            </div>
+            <button id="btn-scan-again" class="mt-2 w-full bg-emerald-100 hover:bg-emerald-200 text-emerald-800 py-2 rounded-lg text-sm font-bold transition">Scan Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="flex flex-col lg:flex-row gap-6 items-start">
 
       <!-- === TOOL CARD === -->

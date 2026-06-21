@@ -65,6 +65,7 @@ let inputVcardFname, inputVcardLname, inputVcardPhone, inputVcardEmail, inputVca
 let inputEmailTo, inputEmailName, inputEmailBody;
 let inputSmsPhone, inputSmsName, inputSmsBody;
 let inputBatch;
+let btnScanQr, scanModal, btnCloseScan, scanResultContainer, scanResultText, scanResultLink, btnCopyScan, btnScanAgain, html5QrcodeScanner;
 
 /* ============================================================
    INITIALISE
@@ -77,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
   bindDownload();
   bindCopy();
   bindEditModal();
+  bindScanner();
   updateDownloadBtn(false);
   initMobileNav();
   initDynamicCopyright();
@@ -124,6 +126,14 @@ function resolveDOM() {
   inputSmsName      = document.getElementById('input-sms-name');
   inputSmsBody      = document.getElementById('input-sms-body');
   inputBatch        = document.getElementById('input-batch');
+  btnScanQr         = document.getElementById('btn-scan-qr');
+  scanModal         = document.getElementById('scan-modal');
+  btnCloseScan      = document.getElementById('btn-close-scan');
+  scanResultContainer = document.getElementById('scan-result-container');
+  scanResultText    = document.getElementById('scan-result-text');
+  scanResultLink    = document.getElementById('scan-result-link');
+  btnCopyScan       = document.getElementById('btn-copy-scan');
+  btnScanAgain      = document.getElementById('btn-scan-again');
 }
 
 /* ============================================================
@@ -917,4 +927,96 @@ function initDynamicCopyright() {
   const els = document.querySelectorAll('.copyright-year');
   const year = new Date().getFullYear();
   els.forEach(el => { el.textContent = year; });
+}
+
+/* ============================================================
+   SCANNER ENGINE
+   ============================================================ */
+function bindScanner() {
+  if (!btnScanQr) return;
+  
+  btnScanQr.addEventListener('click', () => {
+    if (scanModal) {
+      scanModal.classList.remove('hidden');
+    }
+    initScanner();
+  });
+
+  if (btnCloseScan) {
+    btnCloseScan.addEventListener('click', () => {
+      closeScanner();
+    });
+  }
+
+  if (btnScanAgain) {
+    btnScanAgain.addEventListener('click', () => {
+      scanResultContainer.classList.add('hidden');
+      document.getElementById('qr-reader').style.display = 'block';
+      initScanner();
+    });
+  }
+
+  if (btnCopyScan) {
+    btnCopyScan.addEventListener('click', async () => {
+      const text = scanResultText.innerText;
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        const originalText = btnCopyScan.innerText;
+        btnCopyScan.innerText = 'Copied!';
+        setTimeout(() => btnCopyScan.innerText = originalText, 2000);
+      } catch (err) {
+        showToast('Failed to copy text', 'error');
+      }
+    });
+  }
+}
+
+function initScanner() {
+  if (html5QrcodeScanner) {
+    html5QrcodeScanner.clear().catch(e => {});
+  }
+  
+  html5QrcodeScanner = new Html5QrcodeScanner(
+    "qr-reader",
+    { fps: 10, qrbox: {width: 250, height: 250} },
+    false
+  );
+  
+  html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+}
+
+function closeScanner() {
+  if (scanModal) scanModal.classList.add('hidden');
+  if (html5QrcodeScanner) {
+    html5QrcodeScanner.clear().catch(error => {
+      console.error("Failed to clear scanner", error);
+    });
+  }
+  if (scanResultContainer) {
+    scanResultContainer.classList.add('hidden');
+  }
+  const reader = document.getElementById('qr-reader');
+  if(reader) reader.style.display = 'block';
+}
+
+function onScanSuccess(decodedText, decodedResult) {
+  if (html5QrcodeScanner) {
+    html5QrcodeScanner.clear();
+  }
+  
+  document.getElementById('qr-reader').style.display = 'none';
+  scanResultContainer.classList.remove('hidden');
+  scanResultText.innerText = decodedText;
+  
+  if (isValidURL(decodedText)) {
+    scanResultLink.href = decodedText;
+    scanResultLink.classList.remove('hidden');
+  } else {
+    scanResultLink.classList.add('hidden');
+  }
+}
+
+function onScanFailure(error) {
+  // Ignore continuous scan failures
 }
