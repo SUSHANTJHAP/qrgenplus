@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
@@ -524,7 +525,6 @@ app.get('/r/:short_id', async (req, res) => {
       const ssid = ssidMatch ? ssidMatch[1] : 'Unknown';
       const pass = passMatch ? passMatch[1] : '';
       
-      const fs = require('fs');
       let template = fs.readFileSync(path.join(__dirname, 'public', 'landing_wifi.html'), 'utf8');
       template = template.replace(/\{\{WIFI_SSID\}\}/g, ssid).replace(/\{\{WIFI_PASS\}\}/g, pass);
       return res.send(template);
@@ -542,7 +542,6 @@ app.get('/r/:short_id', async (req, res) => {
       const email = emailMatch ? emailMatch[1].trim() : '';
       const initials = name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
       
-      const fs = require('fs');
       let template = fs.readFileSync(path.join(__dirname, 'public', 'landing_vcard.html'), 'utf8');
       template = template.replace(/\{\{NAME\}\}/g, name)
                          .replace(/\{\{ORG\}\}/g, org)
